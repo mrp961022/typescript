@@ -4,12 +4,14 @@
  * 数字类型（number）
  * 字符串类型（string）
  * 数组类型（array）
- * 元组类型（tuple）
+ * 元组类型（tuple）数组的一种 可以设置多种类型的数组
  * 枚举类型（enum）
  * 任意类型（any）
  * null 和 undefined
- * void类型
+ * void类型 无类型 定义方法无返回值
  * never类型
+ * never 其他类型 代表从不会出现的值
+ * 生命never类型变量智能被never赋值
  */
  // es5（正确）
  // ts（错误）
