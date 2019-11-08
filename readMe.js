@@ -11,7 +11,7 @@
  * void类型 无类型 定义方法无返回值
  * never类型
  * never 其他类型 代表从不会出现的值
- * 生命never类型变量智能被never赋值
+ * 声明never类型变量智能被never赋值
  */
  // es5（正确）
  // ts（错误）
