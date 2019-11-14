@@ -25,6 +25,9 @@ flag = 456;
 // ts 定义变量
 // var flag:boolean=true;
 
+// 如果类型不确定的话
+// var flag:string|number
+
 /**
  *  tsc --init 生成tsconfig.json 文件
  *  可以监听导出js文件 文件名和ts文件一样
