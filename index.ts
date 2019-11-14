@@ -61,7 +61,7 @@ var s: FlagName = FlagName.success
 // console.log(s)
 var f: FlagName = FlagName.error
 // console.log(f)
-var e: Color = Color.blue // 如果没有赋值，则为下标
+// var e: Color = Color.blue // 如果没有赋值，则为下标
 // console.log(e)
 
 enum ErrMsg {
@@ -77,8 +77,8 @@ var ef: ErrMsg = ErrMsg.null
  * 任意类型any
  */
 
-var oBox: any = document.getElementById('box') //操作dom节点 script应放在dom节点后面
-oBox.style.color = 'red'   // 由于ts没有object类型，则用any代替
+// var oBox: any = document.getElementById('box') //操作dom节点 script应放在dom节点后面
+// oBox.style.color = 'red'   // 由于ts没有object类型，则用any代替
 
 /**
  * null undefinded (never 类型子类型)
@@ -1066,6 +1066,155 @@ function getInfoA(name: any, age?: any): string {
  * 内部模块
  * 外部模块
  */
-import {getData} from './moduls/db'
+// import {getData} from './moduls/db'
 
-getData();
+// getData();
+
+/**
+ * 命名空间
+ * 用于组织代码，避免命名冲突
+ */
+
+// namespace A {  // namespace 命名空间，避免命名冲突 
+//   interface Animal {
+//     name: string;
+//     eat(): void;
+//   }
+
+//   export class Dog implements Animal { // 私有的，需要export暴露出来
+//     name: string;
+//     constructor(theName: string) {
+//       this.name = theName;
+//     }
+//     eat() {
+//       console.log(`${this.name}吃狗粮`);
+//     }
+//   }
+//   export class Cat implements Animal {
+//     name: string;
+//     constructor(theName: string) {
+//       this.name = theName;
+//     }
+//     eat() {
+//       console.log(`${this.name}吃老鼠`);
+//     }
+//   }
+// }
+// // import {B} from './moduls/spaceName'
+// var d=new A.Dog('狼狗')
+// d.eat();
+// var e=new B.Dog('小狼狗')
+// e.eat();
+
+/**
+ * 装饰器
+ * 一种方法 一种特殊类型的声明，可以放在类、属性、方法中拓展类、属性、方法 可以修改类的行为
+ * es7标准特性之一
+ */
+
+// 类装饰器
+
+// 普通装饰器
+
+//  function logClass(params:any){ // 装饰器
+//   // console.log(params); // params 当前类
+//   params.prototype.apiUrl='xxx'  // 动态拓展的属性
+//   params.prototype.run=function(){
+//     console.log('我是一个run方法') // 拓展方法
+//   }
+//  }
+//  @logClass
+//  class HttpClient{
+//    constructor(){
+     
+//    }
+//    getData(){
+
+//    }
+//  }
+//  var http:any=new HttpClient();
+//  console.log(http.apiUrl);
+//  http.run();
+
+ // 装饰器工厂
+
+//  function logClass(params:string){ // 装饰器
+//   return function(target:any){
+//     // console.log(target);  // 拓展的类
+//     // console.log(params);  // 传参
+//     target.prototype.apiUrl=params;
+
+//   }
+//  }
+//  @logClass('http://www.itying.com/api')
+//  class HttpClient{
+//    constructor(){
+     
+//    }
+//    getData(){
+
+//    }
+//  }
+ 
+//  var http:any=new HttpClient();
+//  console.log(http.apiUrl)
+
+// 类装饰器重载构造函数
+
+//  function logClass(target:any){ // 装饰器
+//     console.log(target)
+//     return class extends target{
+//       apiUrl:any; // 类装饰器重载以前的类
+//       getData(){ 
+//         this.apiUrl=this.apiUrl+'---'
+//         console.log(this.apiUrl)
+//       }
+//     }
+//  }
+//  @logClass
+
+//   class HttpClient{
+//     apiUrl:string|undefined;
+//     constructor(){
+//       this.apiUrl='我是构造函数apiurl'
+//     }
+//     getData(){
+//       console.log(this.apiUrl)
+//     }
+//  }
+
+//  var a=new HttpClient;
+//  a.getData();
+
+
+ // 属性装饰器 接收两个参数  1.构造器函数 2.成员的名称
+
+  function logClass(params:string){ // 类装饰器
+  return function(target:any){
+    // console.log(target);  // 拓展的类
+    // console.log(params);  // 传参
+  }
+ }
+
+ // 属性装饰器
+ function logProperty(params:any){
+   return function(target:any,attr:any){
+     console.log(target);
+     target[attr]=params;
+     console.log(attr)
+   }
+ }
+ @logClass('xxx')
+ class HttpClient{
+   @logProperty('http://itying.com')  // 装饰器写在谁前面就修饰谁
+   public url:any|undefined;
+   constructor(){
+     
+   }
+   getData(){
+     console.log(this.url)
+   }
+ }
+ 
+ var a=new HttpClient();
+ a.getData();
