@@ -1109,6 +1109,7 @@ function getInfoA(name: any, age?: any): string {
 /**
  * 装饰器
  * 一种方法 一种特殊类型的声明，可以放在类、属性、方法中拓展类、属性、方法 可以修改类的行为
+ * 使用方式，卸载类、属性、方法前，用于修改或拓展类、属性、方法
  * es7标准特性之一
  */
 
@@ -1208,11 +1209,13 @@ function getInfoA(name: any, age?: any): string {
  class HttpClient{
    @logProperty('http://itying.com')  // 装饰器写在谁前面就修饰谁
    public url:any|undefined;
+   @logProperty('老王')
+   public name:string|undefined;
    constructor(){
      
    }
    getData(){
-     console.log(this.url)
+     console.log(this.name)
    }
  }
  

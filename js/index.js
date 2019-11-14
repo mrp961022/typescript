@@ -917,6 +917,7 @@ function getInfoA(name, age) {
 /**
  * 装饰器
  * 一种方法 一种特殊类型的声明，可以放在类、属性、方法中拓展类、属性、方法 可以修改类的行为
+ * 使用方式，卸载类、属性、方法前，用于修改或拓展类、属性、方法
  * es7标准特性之一
  */
 // 类装饰器
@@ -997,11 +998,14 @@ var HttpClient = /** @class */ (function () {
     function HttpClient() {
     }
     HttpClient.prototype.getData = function () {
-        console.log(this.url);
+        console.log(this.name);
     };
     __decorate([
         logProperty('http://itying.com') // 装饰器写在谁前面就修饰谁
     ], HttpClient.prototype, "url", void 0);
+    __decorate([
+        logProperty('老王')
+    ], HttpClient.prototype, "name", void 0);
     HttpClient = __decorate([
         logClass('xxx')
     ], HttpClient);
