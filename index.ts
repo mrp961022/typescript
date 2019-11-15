@@ -663,33 +663,49 @@ function getInfoA(name: any, age?: any): string {
 
 
 // 封装的ajax请求 原生js
-// interface Config {
-//   type: string;
-//   url: string;
-//   data?: string;
-//   dateType: string;
-// }
-// function ajax(config: Config) {
-//   var xhr = new XMLHttpRequest()
-//   xhr.open(config.type, config.url, true);
-//   xhr.send(config.data);
-//   xhr.onreadystatechange = function () {
-//     if (xhr.readyState == 4 && xhr.status == 200) {
-//       console.log('成功')
-//       if (config.dateType == 'json') {// json
-//         console.log(JSON.parse(xhr.responseText))
-//       } else {// 其他
-//         console.log(xhr.responseText)
-//       }
-//     }
-//   }
-// }
-// ajax({
-//   type: 'get',
-//   url: 'http://a.itying.com/api/productlist',
-//   data: 'name=zhangsan',
-//   dateType: 'json'
-// })
+interface Config {
+  type: string;
+  url: string;
+  data?: any;
+  dateType: string;
+}
+function ajax(config: Config) {
+  var xhr = new XMLHttpRequest()
+  var param:string = '';
+  for (var attr in config.data) {
+    param += attr + '=' + config.data[attr] + '&';
+  }
+  if (param) {//substring(start, end)截取字符串去掉最后的&符号
+    param = param.substring(0, param.length - 1);
+  }
+  if (config.type == 'get') {
+    config.url += '?' + encodeURI(param);
+  }
+  xhr.open(config.type, config.url, true);
+  var data = null;
+  if (config.type == 'post') {
+    data = param;
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    //post模式下必须加的请求头，这个请求头是告诉服务器怎么去解析请求的正文部分。
+  }
+  xhr.send(data);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      console.log('成功')
+      if (config.dateType == 'json') {// json
+        console.log(JSON.parse(xhr.responseText))
+      } else {// 其他
+        console.log(xhr.responseText)
+      }
+    }
+  }
+}
+ajax({
+  type: 'get',
+  url: 'http://a.itying.com/api/productlist',
+  data: { name: 'ahangsfs' },
+  dateType: 'json'
+})
 
 // 函数类型接口，对方法传入的参数及返回值进行约束
 
@@ -1127,7 +1143,7 @@ function getInfoA(name: any, age?: any): string {
 //  @logClass
 //  class HttpClient{
 //    constructor(){
-     
+
 //    }
 //    getData(){
 
@@ -1137,7 +1153,7 @@ function getInfoA(name: any, age?: any): string {
 //  console.log(http.apiUrl);
 //  http.run();
 
- // 装饰器工厂
+// 装饰器工厂
 
 //  function logClass(params:string){ // 装饰器
 //   return function(target:any){
@@ -1150,13 +1166,13 @@ function getInfoA(name: any, age?: any): string {
 //  @logClass('http://www.itying.com/api')
 //  class HttpClient{
 //    constructor(){
-     
+
 //    }
 //    getData(){
 
 //    }
 //  }
- 
+
 //  var http:any=new HttpClient();
 //  console.log(http.apiUrl)
 
@@ -1188,36 +1204,36 @@ function getInfoA(name: any, age?: any): string {
 //  a.getData();
 
 
- // 属性装饰器 接收两个参数  1.构造器函数 2.成员的名称
+// 属性装饰器 接收两个参数  1.构造器函数 2.成员的名称
 
-  function logClass(params:string){ // 类装饰器
-  return function(target:any){
+function logClass(params: string) { // 类装饰器
+  return function (target: any) {
     // console.log(target);  // 拓展的类
     // console.log(params);  // 传参
   }
- }
+}
 
- // 属性装饰器
- function logProperty(params:any){
-   return function(target:any,attr:any){
-     console.log(target);
-     target[attr]=params;
-     console.log(attr)
-   }
- }
- @logClass('xxx')
- class HttpClient{
-   @logProperty('http://itying.com')  // 装饰器写在谁前面就修饰谁
-   public url:any|undefined;
-   @logProperty('老王')
-   public name:string|undefined;
-   constructor(){
-     
-   }
-   getData(){
-     console.log(this.name)
-   }
- }
- 
- var a=new HttpClient();
- a.getData();
+// 属性装饰器
+function logProperty(params: any) {
+  return function (target: any, attr: any) {
+    console.log(target);
+    target[attr] = params;
+    console.log(attr)
+  }
+}
+@logClass('xxx')
+class HttpClient {
+  @logProperty('http://itying.com')  // 装饰器写在谁前面就修饰谁
+  public url: any | undefined;
+  @logProperty('老王')
+  public name: string | undefined;
+  constructor() {
+
+  }
+  getData() {
+    console.log(this.name)
+  }
+}
+
+var a = new HttpClient();
+a.getData();
