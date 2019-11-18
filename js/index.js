@@ -1,11 +1,5 @@
 "use strict";
 // console.log("你好");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
 var str = "你好ts";
 /**
  * 第一步 tsc --init 生成json文件  outDir生成目录修改
@@ -197,6 +191,7 @@ function ajax(config) {
     if (param) { //substring(start, end)截取字符串去掉最后的&符号
         param = param.substring(0, param.length - 1);
     }
+    // console.log(param)
     if (config.type == 'get') {
         config.url += '?' + encodeURI(param);
     }
@@ -210,12 +205,12 @@ function ajax(config) {
     xhr.send(data);
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4 && xhr.status == 200) {
-            console.log('成功');
+            // console.log('成功')
             if (config.dateType == 'json') { // json
-                console.log(JSON.parse(xhr.responseText));
+                // console.log(JSON.parse(xhr.responseText))
             }
             else { // 其他
-                console.log(xhr.responseText);
+                // console.log(xhr.responseText)
             }
         }
     };
@@ -644,36 +639,107 @@ ajax({
 //  var a=new HttpClient;
 //  a.getData();
 // 属性装饰器 接收两个参数  1.构造器函数 2.成员的名称
-function logClass(params) {
-    return function (target) {
-        // console.log(target);  // 拓展的类
-        // console.log(params);  // 传参
-    };
-}
-// 属性装饰器
-function logProperty(params) {
-    return function (target, attr) {
-        console.log(target);
-        target[attr] = params;
-        console.log(attr);
-    };
-}
-var HttpClient = /** @class */ (function () {
-    function HttpClient() {
-    }
-    HttpClient.prototype.getData = function () {
-        console.log(this.name);
-    };
-    __decorate([
-        logProperty('http://itying.com') // 装饰器写在谁前面就修饰谁
-    ], HttpClient.prototype, "url", void 0);
-    __decorate([
-        logProperty('老王')
-    ], HttpClient.prototype, "name", void 0);
-    HttpClient = __decorate([
-        logClass('xxx')
-    ], HttpClient);
-    return HttpClient;
-}());
-var a = new HttpClient();
-a.getData();
+// function logClass(params: string) { // 类装饰器
+//   return function (target: any) {
+//     // console.log(target);  // 拓展的类
+//     // console.log(params);  // 传参
+//   }
+// }
+// // 属性装饰器
+// function logProperty(params: any) {
+//   return function (target: any, attr: any) {
+//     // console.log(target);
+//     target[attr] = params;
+//     // console.log(attr)
+//   }
+// }
+// @logClass('xxx')
+// class HttpClient {
+//   @logProperty('http://itying.com')  // 装饰器写在谁前面就修饰谁
+//   public url: any | undefined;
+//   @logProperty('老王')
+//   public name: string | undefined;
+//   constructor() {
+//   }
+//   getData() {
+//     // console.log(this.name)
+//   }
+// }
+// var a = new HttpClient();
+// a.getData();
+// 方法装饰器
+// 接收三个参数 1.原型对象 2.方法名称 3.方法描述
+// 扩展当前类的属性和方法
+// function get(params:any){
+//   return function(target:any,methods:any,desc:any){
+//     console.log(target);
+//     console.log(methods);
+//     console.log(desc);
+//     target.apiUrl='xxx';
+//     target.run=function(){  // 扩展当前类的属性和方法
+//       console.log('run');
+//     }
+//   }
+// }
+// class HttpClient {
+//   public url: any | undefined;
+//   constructor() {
+//   }
+//   @get('http://www.itying.com')
+//   getData() {
+//     console.log(this.url)
+//   }
+// }
+// var http:any=new HttpClient()
+// console.log(http.apiUrl)
+// http.run();
+// 修改装饰器方法
+// function get(params:any){
+//   return function(target:any,methods:any,desc:any){
+//     // console.log(target);
+//     // console.log(methods);
+//     // console.log(desc);
+//     // 修改当前方法 把装饰器的方法传入参数改为string类型
+//     // 1.保存当前方法
+//     var oMthod=desc.value
+//     desc.value=function(...args:any[]){
+//       args=args.map((value)=>{
+//         return String(value)
+//       })
+//       oMthod.apply(this,args) // 对象冒充
+//     }
+//   }
+// }
+// class HttpClient {
+//   public url: any | undefined;
+//   constructor() {
+//   }
+//   @get('http://www.itying.com')
+//   getData(...args:any[]) {
+//     console.log('我是getData的方法')
+//     console.log(args)
+//   }
+// }
+// var http:any = new HttpClient();
+// http.getData(111,111,222)
+// 方法参数装饰器  不常用
+// function logParams(params:any){
+//   return function(target:any,methodName:any,paramsIndex:any){
+//     // console.log(params)
+//     // console.log(target)
+//     // console.log(methodName);
+//     // console.log(paramsIndex)
+//     target.apiUrl=params;
+//   }
+// }
+// class HttpClient {
+//   public url: any | undefined;
+//   constructor() {
+//   }
+//   getData(@logParams('xxxx') uuid:any) {  // 参数装饰器
+//     console.log('我是getData的方法')
+//   }
+// }
+// var http:any =new HttpClient();
+// http.getData(123456)
+// console.log(http.apiUrl)

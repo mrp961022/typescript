@@ -678,6 +678,7 @@ function ajax(config: Config) {
   if (param) {//substring(start, end)截取字符串去掉最后的&符号
     param = param.substring(0, param.length - 1);
   }
+  // console.log(param)
   if (config.type == 'get') {
     config.url += '?' + encodeURI(param);
   }
@@ -691,11 +692,11 @@ function ajax(config: Config) {
   xhr.send(data);
   xhr.onreadystatechange = function () {
     if (xhr.readyState == 4 && xhr.status == 200) {
-      console.log('成功')
+      // console.log('成功')
       if (config.dateType == 'json') {// json
-        console.log(JSON.parse(xhr.responseText))
+        // console.log(JSON.parse(xhr.responseText))
       } else {// 其他
-        console.log(xhr.responseText)
+        // console.log(xhr.responseText)
       }
     }
   }
@@ -1206,34 +1207,125 @@ ajax({
 
 // 属性装饰器 接收两个参数  1.构造器函数 2.成员的名称
 
-function logClass(params: string) { // 类装饰器
-  return function (target: any) {
-    // console.log(target);  // 拓展的类
-    // console.log(params);  // 传参
-  }
-}
+// function logClass(params: string) { // 类装饰器
+//   return function (target: any) {
+//     // console.log(target);  // 拓展的类
+//     // console.log(params);  // 传参
+//   }
+// }
 
-// 属性装饰器
-function logProperty(params: any) {
-  return function (target: any, attr: any) {
-    console.log(target);
-    target[attr] = params;
-    console.log(attr)
-  }
-}
-@logClass('xxx')
-class HttpClient {
-  @logProperty('http://itying.com')  // 装饰器写在谁前面就修饰谁
-  public url: any | undefined;
-  @logProperty('老王')
-  public name: string | undefined;
-  constructor() {
+// // 属性装饰器
+// function logProperty(params: any) {
+//   return function (target: any, attr: any) {
+//     // console.log(target);
+//     target[attr] = params;
+//     // console.log(attr)
+//   }
+// }
+// @logClass('xxx')
+// class HttpClient {
+//   @logProperty('http://itying.com')  // 装饰器写在谁前面就修饰谁
+//   public url: any | undefined;
+//   @logProperty('老王')
+//   public name: string | undefined;
+//   constructor() {
 
-  }
-  getData() {
-    console.log(this.name)
-  }
-}
+//   }
+//   getData() {
+//     // console.log(this.name)
+//   }
+// }
 
-var a = new HttpClient();
-a.getData();
+// var a = new HttpClient();
+// a.getData();
+
+// 方法装饰器
+// 接收三个参数 1.原型对象 2.方法名称 3.方法描述
+// 扩展当前类的属性和方法
+
+// function get(params:any){
+//   return function(target:any,methods:any,desc:any){
+//     console.log(target);
+//     console.log(methods);
+//     console.log(desc);
+//     target.apiUrl='xxx';
+//     target.run=function(){  // 扩展当前类的属性和方法
+//       console.log('run');
+//     }
+//   }
+// }
+
+// class HttpClient {
+//   public url: any | undefined;
+//   constructor() {
+
+//   }
+//   @get('http://www.itying.com')
+//   getData() {
+//     console.log(this.url)
+//   }
+// }
+
+// var http:any=new HttpClient()
+// console.log(http.apiUrl)
+// http.run();
+
+// 修改装饰器方法
+
+// function get(params:any){
+//   return function(target:any,methods:any,desc:any){
+//     // console.log(target);
+//     // console.log(methods);
+//     // console.log(desc);
+//     // 修改当前方法 把装饰器的方法传入参数改为string类型
+//     // 1.保存当前方法
+//     var oMthod=desc.value
+//     desc.value=function(...args:any[]){
+//       args=args.map((value)=>{
+//         return String(value)
+//       })
+//       oMthod.apply(this,args) // 对象冒充
+//     }
+//   }
+// }
+
+// class HttpClient {
+//   public url: any | undefined;
+//   constructor() {
+
+//   }
+//   @get('http://www.itying.com')
+//   getData(...args:any[]) {
+//     console.log('我是getData的方法')
+//     console.log(args)
+//   }
+// }
+
+// var http:any = new HttpClient();
+// http.getData(111,111,222)
+
+// 方法参数装饰器  不常用
+
+// function logParams(params:any){
+//   return function(target:any,methodName:any,paramsIndex:any){
+//     // console.log(params)
+//     // console.log(target)
+//     // console.log(methodName);
+//     // console.log(paramsIndex)
+//     target.apiUrl=params;
+//   }
+// }
+
+// class HttpClient {
+//   public url: any | undefined;
+//   constructor() {
+
+//   }
+//   getData(@logParams('xxxx') uuid:any) {  // 参数装饰器
+//     console.log('我是getData的方法')
+//   }
+// }
+  
+// var http:any =new HttpClient();
+// http.getData(123456)
+// console.log(http.apiUrl)
