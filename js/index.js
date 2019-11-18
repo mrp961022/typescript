@@ -1,5 +1,14 @@
 "use strict";
 // console.log("你好");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 var str = "你好ts";
 /**
  * 第一步 tsc --init 生成json文件  outDir生成目录修改
@@ -743,3 +752,54 @@ ajax({
 // var http:any =new HttpClient();
 // http.getData(123456)
 // console.log(http.apiUrl)
+// 各种装饰器的执行顺序
+// 属性>>方法参数>>方法>>类   如果有多个同类型装饰器，从后往前执行
+function logClass1(target) {
+    return function (target) {
+        console.log('类装饰器');
+    };
+}
+function logClass2(target) {
+    return function (target) {
+        console.log('类装饰器');
+    };
+}
+function logAttribute(params) {
+    return function (target, attrName) {
+        console.log('属性装饰器');
+    };
+}
+function logMthods(params) {
+    return function (target, attrName, desc) {
+        console.log('方法装饰器');
+    };
+}
+function logParams1(params) {
+    return function (target, attrName, desc) {
+        console.log('方法参数装饰器1');
+    };
+}
+function logParams2(params) {
+    return function (target, attrName, desc) {
+        console.log('方法参数装饰器2');
+    };
+}
+var HttpClient = /** @class */ (function () {
+    function HttpClient() {
+    }
+    HttpClient.prototype.getData = function (attr1, attr2) {
+    };
+    __decorate([
+        logAttribute()
+    ], HttpClient.prototype, "apiUrl", void 0);
+    __decorate([
+        logMthods(),
+        __param(0, logParams1()), __param(1, logParams2())
+    ], HttpClient.prototype, "getData", null);
+    HttpClient = __decorate([
+        logClass1('http://www.itying.com'),
+        logClass2('xxx')
+    ], HttpClient);
+    return HttpClient;
+}());
+var http = new HttpClient();

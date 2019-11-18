@@ -1329,3 +1329,49 @@ ajax({
 // var http:any =new HttpClient();
 // http.getData(123456)
 // console.log(http.apiUrl)
+
+// 各种装饰器的执行顺序
+// 属性>>方法参数>>方法>>类   如果有多个同类型装饰器，从后往前执行
+ function logClass1(target:any){ // 装饰器
+    return function(target:any){
+      console.log('类装饰器')
+    }
+ }
+ function logClass2(target:any){ // 装饰器
+  return function(target:any){
+    console.log('类装饰器')
+  }
+}
+function logAttribute(params?:string){ // 装饰器
+  return function(target:any,attrName:any){
+    console.log('属性装饰器')
+  }
+}
+function logMthods(params?:string){ // 装饰器
+  return function(target:any,attrName:any,desc:any){
+    console.log('方法装饰器')
+  }
+}
+function logParams1(params?:string){ // 装饰器
+  return function(target:any,attrName:any,desc:any){
+    console.log('方法参数装饰器1')
+  }
+}
+function logParams2(params?:string){ // 装饰器
+  return function(target:any,attrName:any,desc:any){
+    console.log('方法参数装饰器2')
+  }
+}
+ @logClass1('http://www.itying.com')
+ @logClass2('xxx')
+  class HttpClient{
+    @logAttribute()
+    public apiUrl:string|undefined;
+    constructor(){
+    }
+    @logMthods()
+    getData(@logParams1() attr1:any,@logParams2() attr2:any){
+
+    }
+ }
+var http:any = new HttpClient();
