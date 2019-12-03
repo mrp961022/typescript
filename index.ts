@@ -1331,7 +1331,7 @@ ajax({
 // console.log(http.apiUrl)
 
 // 各种装饰器的执行顺序
-// 属性>>方法参数>>方法>>类   如果有多个同类型装饰器，从后往前执行
+// 属性>>方法/参数>>方法>>类   如果有多个同类型装饰器，从后往前执行
  function logClass1(target:any){ // 装饰器
     return function(target:any){
       console.log('类装饰器')

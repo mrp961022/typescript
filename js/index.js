@@ -753,7 +753,7 @@ ajax({
 // http.getData(123456)
 // console.log(http.apiUrl)
 // 各种装饰器的执行顺序
-// 属性>>方法参数>>方法>>类   如果有多个同类型装饰器，从后往前执行
+// 属性>>方法/参数>>方法>>类   如果有多个同类型装饰器，从后往前执行
 function logClass1(target) {
     return function (target) {
         console.log('类装饰器');
