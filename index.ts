@@ -1,1377 +1,704 @@
-// console.log("你好");
-
-var str: string = "你好ts"
-/**
- * 第一步 tsc --init 生成json文件  outDir生成目录修改
- */
-
-/**
- * 第二步 点击任务(终端)  运行任务 选择监视tsconfig.json
- */
-
-/**
-  * ts 定义变量必须指定类型 且变量类型不能切换
-  */
-str = 'true'
+let flag: boolean = true;  // typescript 声明变量需要定义类型 且类型不能改变
+flag = false  // 正确
+// falg = 1  // 错误
+let a: number = 123;
+a = 123.2
+// console.log(a)
+let str: string = "this is ts"
+str = "yes,it is ts"
 // console.log(str)
-/**
- * 第一种定义数组
- */
 
-var arr: number[] = [11, 22, 33]// 定义类型
+// 数组类型
+let arr: Array<number> = [1, 2, 3]  // 定义变量需要指定类型
+let arr1: Array<number | string> = [1, 2, 3, "3"] // 可以指定多个类型
+let arr2: string[] = ["1", "2"] // 另一种方式定义类型
 // console.log(arr)
-
-/**
- * 第二种定义数组
- */
-
-var arr1: Array<number> = [11, 22, 33]// 定义类型
 // console.log(arr1)
-
-/**
- * 如果有多种类型
- * 则可以使用任意类型any
- */
-
-var arr2: Array<any> = [1, 2, 3, '4'] // any 任意类型
 // console.log(arr2)
 
-/**
- * 元组类型 属于数组的一种
- */
+// 元组类型（数组一种）
+let arr3: [string, number, boolean] = ["1", 2, true] // 可以指定数组中每个值的类型
+// console.log(arr3)
 
-var arr3: [number, string] = [1, 'ss'];// 对应的左边几个，右边就几个
-
-var arr4: Array<number | string> = [11, 22, 33, 'a'] // 可以随意
-
-/**
- * 枚举类型
- */
-
-enum FlagName {
-  success = 1,
-  error = 4
-}
-enum Color {
-  blue,
-  red,
-  orange
-}
-var s: FlagName = FlagName.success
-// console.log(s)
-var f: FlagName = FlagName.error
+// 枚举类型 主要用于定义标识符
+enum Flag { success = 1, error = -1 }
+let f = Flag.success;
+let l = Flag.error;
 // console.log(f)
-// var e: Color = Color.blue // 如果没有赋值，则为下标
-// console.log(e)
+// console.log(l)
+enum Color { red, blue, orange } // 没有赋值默认为索引值
+let clr = Color.blue;
+// console.log(clr)
 
-enum ErrMsg {
-  undefinded = -1,
-  null = -2,
-  success = 1
+// 任意类型any undefined null never
+let numAny: any = 1; // 任意类型可以随意赋值 主要用于获取dom节点
+numAny = "2"
+// console.log(numAny)
+// let oBox: any = document.getElementById("box");
+// oBox.style.color = "red"
+// let num1: number
+// // console.log(num1) // 报错
+let num1: undefined | number | null
+// console.log(num1) // 正确
+
+// void 类型 没有任何类型 一般用于方法没有返回值
+function run(): void {
+  // console.log(run)
 }
-var ef: ErrMsg = ErrMsg.null
-// console.log(ef)
-
-
-/**
- * 任意类型any
- */
-
-// var oBox: any = document.getElementById('box') //操作dom节点 script应放在dom节点后面
-// oBox.style.color = 'red'   // 由于ts没有object类型，则用any代替
-
-/**
- * null undefinded (never 类型子类型)
- */
-// var newNum:number;// 定义未赋值打印报错
-var newNum: undefined;// 正确 同null 不能赋值
-// console.log(newNum)
-
-
-/**
- * 一个元素可能是number类型 null 或者undefined
- */
-
-var num: number | null | undefined;// 定义多种类型
-
-/**
- * void类型 无类型 定义方法无返回值
- */
-
-// es5定义方法
-// function get1() {
-//     
-//     console.log('bb')
-// }
-
-function get1(): void {
-  // ts 标识方法没有返回值，没有返回任何类型
-  // console.log('bb')
+function eat(animal: string): string { // 方法需要定义返回值类型 如果没有就是void 入参也要定义类型
+  return animal + " eat meat"
 }
+// console.log(eat("cat"))
 
-function get2(): number {
-  // 有返回值为返回值类型
-  return 111
-}
-
-/**
- * never 其他类型 代表从不会出现的值
- * 生命never类型变量智能被never赋值
- */
-
-var aa: undefined;
-
-aa = undefined;
-
-var aaa: never;
-//  aaa=123 // 错误
-// aaa=(()=>{
-//   throw new Error('错误')
+// never 类型 表示从不会出现的值
+let aa: never; // 其他类型 基本用不上
+// aa = 1; // 错误
+// aa = (() => {
+//   throw new Error("错误") //抛出一个异常
 // })()
 
-/**
- * 函数定义
- */
-
-// es5 匿名函数和函数声明式
-// function run(){
-//   alert('run')
-// }
-// var run = function(){
-//   alert('run')
-// }
-// ts中
-// 函数声明
-function run(): string {
-  return '111'
+// ts中的函数 ts中方法传参的类型需要指定
+// 见上方 run 方法和 eat 方法  ts定义函数与es5基本相同 但需要指定入参及返回值类型
+// 匿名函数定义方式
+let run1 = function (type: string, toy: string): void {
+  // console.log(`${type} play ${toy}`)
 }
-// alert(run())
-// 匿名
-var fun2 = function (): number {
-  return 111
+run1("cat", "ball")
+
+// 方法可选参数 ? 可选 可以不用传指定参数
+let run2 = function (type: string, toy?: string): void {
+  // console.log(`${type}${toy ? "play" : ""}${toy || ""}`)
 }
+run2("cat")
 
-// ts方法传参
-// 传参，返回值都需定义类型（匿名函数同）
-
-var newFun = function (name: string, age: number): string {
-  return `${name}...${age}`
+// 默认参数 如果有默认参数 默认参数可以不用写
+let getInfo = function (name: string, age: number = 20) {
+  // console.log(`${name}---${age}`)
 }
-// console.log(newFun('王', 1))
+getInfo("老王")
 
-/**
- * 方法可选参数  ?
- * es5中形参实参可以不一样  但是ts中必须一样，如果不同可以设置可选参数
- */
+// 剩余参数 三点运算符 接收形参传过来的值 如果前面有形参 有几个就对应入参的几个 其他的放在数组中
+function sum(str: string, ...num: number[]): string {
+  let sum: number = 0
+  for (let i: number = 0; i < num.length; i++) {
+    sum += num[i]
+  }
+  return str + sum
+}
+// alert(sum("总和是", 1, 2, 3, 4, 5, 6))
 
-var newFun1 = function (name: string, age?: number): string {
-  if (age) {
-    return `${name}...${age}`
+// 函数重载 两个或者两个以上重名函数 但参数不一样 这时会出现函数重载的情况
+// ts实现类似java的变成的写法 用于限定入参
+// ts中的重载 参数不一样
+function run3(name: string): string;
+function run3(age: number): number;
+function run3(str: any): any {
+  if (typeof str == "string") {
+    return str
   } else {
-    return `${name}...保密`
+    return str
   }
-}
+};
+// run3(true) // 错误 不是 string 或者 number
+// alert(run3("meat")) // 正确
 
-// alert(newFun1('王'))
-// 注意可选参数 必须配置到参数最后面
-
-// var newFun1=function(age:number,name?:string,):string {
-//   if(age){
-//     return `${name}...${age}`
-//   }else{
-//     return `${name}...保密`
-//   }
-// } // 错误写法
-
-/**
- * 默认参数
- * es5中无法设置默认参数  es6和ts中可以设置默认参数
- */
-
-var newFun2 = function (name: string, age: number = 20): string {
-  return `${name}...${age}`
-}
-
-// alert(newFun2('张三'))
-
-/**
- * 剩余参数
- * 三点运算符接受参数
- */
-
-function sum11(...result: number[]): number {
-  var sum = 0;
-  for (var i = 0; i < result.length; i++) {
-    sum += result[i]
-  }
-  return sum
-}
-//  alert(sum11(1,2,3,4,6,7))
-
-/**
- * 函数重载 同名函数传参不同执行不同结果
- * ts为了兼容es5及es6重载的写法和java有区别
- */
-
-// es5 后面的函数会替换前面的函数
-// function css(config) {
-
-// }
-
-// function css(config,value) {
-
-// }
-
-// ts中的重载  参数不同
-
-// function getInfoA(name:string):string
-// function getInfoA(age:number):string;
-// function getInfoA(str:any):any{
-//   if(typeof str === 'string'){
-//     return '我叫'+str;
-//   }else{
-//     return '我的年龄是'+str;
-//   }
-// };
-// alert(getInfoA(20)) // 正确
-// alert(getInfoA('张三')) // 正确
-// alert(getInfoA(true)) // 错误 重载没有找到
-
-// ts中的重载  参数相同
-
-function getInfoA(name: string): string;
-function getInfoA(name: string, age: number): string;
-function getInfoA(name: any, age?: any): string {
+// ts重载 参数一样
+function run4(name: string): string;
+function run4(name: string, age: number): string;
+function run4(name: any, age?: any): any {
   if (age) {
-    return `我叫${name},我的年龄${age}`
+    // console.log(`我叫${name} 我${age}岁`)
   } else {
-    return `我叫${name}`
+    // console.log(`我叫${name}`)
+  }
+};
+run4("王小二")
+run4("王小二", 18)
+// run4(111,222) // 错误写法
+
+//  ts中的类
+class Person {
+  name: string   // 前面省略public关键词
+  constructor(name: string) {  // 构造函数 实例化时触发的方法 实例化时的入参
+    this.name = name;
+  }
+  getName(): string {
+    return this.name;
+  }
+  setName(name: string): void {
+    this.name = name
+  }
+  run(): void {
+    alert(this.name)
   }
 }
 
-// alert(getInfoA('张三'))
-// alert(getInfoA('张三',123))
-
-/**
- * ts 中的类
- */
-
-// es5 构造器函数模仿类 只有属性
-
-//  function Person(){
-//    this.name='张三';
-//    this.age=20;
-//  }
-//  var p =new Person();
-//  alert(p.name)
-
-// es5 构造函数增加方法  原型上增加属性或方法
-// function Person(){
-//   this.name='张三';
-//   this.age=20;
-//   this.run=function(){
-//     alert(this.name+'运动')
-//   }// 实类方法
-// }
-// Person.getInfo=function(){
-//   alert('我是南方的')
-// }// 静态方法，不用new实例
-// Person.prototype.sex='男'
-// var p =new Person();
+let p = new Person("张三")
 // p.run();
-// console.log(p.sex)
-
-/**
- * es5 的继承
- */
-// function Person(){
-//   this.name='张三';
-//   this.age=20;
-//   this.run=function(){
-//     alert(this.name+'运动')
-//   }
-// }
-// Person.prototype.sex='男'
-
-// // 定义web类继承Person类 原型链+对象冒充组合继承
-
-// function Web(){
-//   Person.call(this); // 对象冒充实现继承
-// }
-// Web.prototype=new Person();// 原型链实现继承 可以继承构造函数和原型链上的
-// var w =new Web();
-// w.run(); // 对象冒充，可以继承属性和方法但不能继承原型上的属性方法
-
-// alert(w.sex)
-
-// 原型链继承问题
-
-// function Person(name,age){
-//   this.name=name;
-//   this.age=age;
-//   this.run=function(){
-//     alert(this.name+'运动')
-//   }
-// }
-// Person.prototype.sex='男'
-
-// function Web(name,age){
-
-// }
-// Web.prototype=new Person();
-
-// var w = new Web('赵四',20) // 实例化子类时没法给父类传参
-
-// var w1 = new Web('王五',20)
-
-// w.run();
-
-// 原型链和构造函数组合传参
-
-// function Person(name,age){
-//   this.name=name;
-//   this.age=age;
-//   this.run=function(){
-//     alert(this.name+'运动')
-//   }
-// }
-// Person.prototype.sex='男'
-// Person.prototype.work=function(){
-//   alert(this.name+'工作')
-// }
-
-// function Web(name,age){
-//   Person.call(this,name,age); // 对象冒充继承，可给父类传参
-// }
-// Web.prototype=Person.prototype;
-// var w=new Web('赵四',20);
-// // w.run();
-// w.work();
-
-/**
- * ts 类以及继承
- */
-
-// ts中定义类
-// class Person{
-//   name:string; // 定义属性 省略public关键词
-//   constructor(name:string){ // 构造函数 实例化时触发的方法
-//     this.name=name;
-//   };
-//   run():void{
-//     alert(this.name);
-//   };
-//   getName():string{
-//     return this.name;
-//   };
-//   setName(name:string):void{
-//     this.name=name;
-//   }
-// }
-// var p = new Person('张三')
-// p.setName('李四') // 调用类方法设置name
+// p.setName("李四")
 // alert(p.getName())
-// p.run()
 
-// ts中的继承关键字实现
-// extends 继承父类属性方法 
-// super 初始化父类构造器函数
-// class Person{
-//   name:string;
-//   constructor(name:string){
-//     this.name=name;
-//   }
-//   run():void{
-//     alert(`${this.name}在运动`)
-//   }
-// }
-// var p=new Person('王五')
-// // p.run();
-
-// class Web extends Person{
-//   constructor(name:string){
-//     super(name);
-//   }
-// }
-// var w=new Web('李四')
-// w.run();
-
+// ts中的继承  extends super关键字 ts中父类方法与子类方法一致 子类可拓展自己方法
+// ts类里的修饰符 三种修饰符
 /**
- * ts 类的修饰符 ts中定义属性三种修饰符  
- * pulic  共有 类或子类里面和外面都能访问
- * protected  类和子类可以访问，类外不能访问
- * prvaite  类可以访问 子类和外部都不能访问
- * 不写修饰符默认为 public
+ * public  共有的 类里面 子类 类外面都可访问 默认为public
+ * protected  保护类型 在类和子类中可以访问 类外部不能访问
+ * private  私有类型 只能在类里可以访问 不能在子类或者类外访问
  */
+class Person1 {
+  protected name: string // 保护类型 不能再外部访问
+  constructor(name: string) {
+    this.name = name;
+  }
+  public eat(): string {  // 共有类型 可以在任何地方访问
+    return this.run();
+  }
+  private run(): string { // 私有类型 只能在此类中使用
+    return `${this.name}在运动`
+  }
+}
 
-// public
+class Student extends Person1 { // extends 和 super初始化父类属性和方法
+  constructor(name: string) {
+    super(name);
+  }
+  study(): void {
+    alert(`${this.name}在看书`)
+  }
+  // run(): string {
+  //   return `${this.name}没在运动` // 若父类与子类有相同方法 会执行子类方法
+  // }
+}
+let pa = new Person1("老李")
+// alert(pa.eat())
+let p1 = new Student("李四")
+// // console.log(p1.name)
+// alert(p1.run()) // 私有类型不能访问
+// p1.study()
 
-// class Person{
-//   public name:string; // 共有属性
-//   constructor(name:string){
-//     this.name=name;
-//   }
-//   run():void{
-//     alert(`${this.name}在运动`)
-//   }
-// }
+// ts中的类  静态方法 静态方法想要访问属性需要将变量定义为静态属性
+class Person2 {
+  name: string
+  static age: number = 20 // 静态属性
+  constructor(name: string) {
+    this.name = name;
+  }
+  run(): void {
+    alert(`${this.name}在运动`)
+  }
+  work(): void {
+    alert(`${this.name}在工作`)
+  }
+  static print(): void {
+    alert("print静态方法" + Person2.age) // 静态方法 或者this.age
+  }
+}
+let p2 = new Person2("小赵")
+// Person2.print()
 
-// // class Web extends Person{
-// //   constructor(name:string){
-// //     super(name);
-// //   }
-// // }
-// // var w=new Web('李四')
-// // w.run();
+// 多态 父类定义一个方法不去实现 让他的子类去实现 每一个子类有不同的表现
+// 多态也是继承的一种表现 属于继承
+class Animal {
+  name: string
+  constructor(name: string) {
+    this.name = name
+  }
+  eat(): void {
+    // console.log("吃的方法")
+  }
+}
+class Dog extends Animal {  // 子类1
+  constructor(name: string) {
+    super(name)
+  }
+  eat(): string {  // 重写父类的方法
+    return this.name + "吃肉"
+  }
+}
+class Cat extends Animal {   // 子类2
+  constructor(name: string) {
+    super(name)
+  }
+  eat(): string {  // 重写父类的方法
+    return this.name + "吃老鼠"
+  }
+}
 
-// var p = new Person('哈哈')
-// alert(p.name)
+// 抽象方法 只能放在抽象类中 不能被直接实例化
+// 抽象类和抽象方法定义标准  例 Animal 要求子类必须包含 eat 方法
+// 父类不包含抽象类的实现 具体在子类中实现
+abstract class Animal1 {
+  name: string
+  constructor(name: string) {
+    this.name = name;
+  }
+  abstract eat(): any;
+}
+class Dog1 extends Animal1 {
+  // 抽象类子类必须实现抽象类中的抽象方法
+  constructor(name: string) {
+    super(name)
+  }
+  eat() {
+    return `${this.name}吃肉`
+  }
+}
+class Cat1 extends Animal1 {
+  constructor(name: string) {
+    super(name)
+  }
+  eat() {
+    return `${this.name}吃老鼠`
+  }
+}
+// let dog1 = new Dog1("小黑")
+// alert(dog1.eat())
+let cat1 = new Cat1("小黄")
+// alert(cat1.eat())
 
-//protected
+// ts中的接口 接口是一种程序规范 对属性、函数、类的行为进行约束
+function printLabel(label: string): void { // 约束传入参数必须是一个并且为字符串类型
+  // console.log(`${label}`)
+}
+// 对传入参数json的约束
+function printLabel1(labelInfo: { label: string }): void { // 约束传入参数必须是对象 对象内必须有leabel字符串
+  // console.log(`${labelInfo.label}`)
+}
+printLabel1({ label: "11111" })
 
-// class Person{
-//   protected name:string; // 保护类型
-//   constructor(name:string){
-//     this.name=name;
-//   }
-//   run():void{
-//     alert(`${this.name}在运动`)
-//   }
-// }
+// 属性接口 对方法入参批量约束 限制入参的格式
+interface FullName {
+  firstName: string;
+  lastName: string;
+  age?: number; // 可选属性 可以不传
+}
+function outName(fullName: FullName): void { // 要求传入对象 必须有firstName lastName 且必须为string类型
+  // console.log(`${fullName.firstName} ${fullName.lastName}`)
+}
+function cnStrudnt(fullName: FullName): void {
+  // console.log(`${fullName.firstName}${fullName.lastName}`)
+}
+outName({ firstName: "布鲁斯", lastName: "李" })
+cnStrudnt({ firstName: "王", lastName: "小二" })
 
-// class Web extends Person{
-//   constructor(name:string){
-//     super(name);
-//   }
-// }
-// // var w=new Web('李四')
-// // w.run();
-
-// var p = new Person('哈哈')
-// p.run()
-// alert(p.name) // 错误警告 但是可以打印
-
-// private
-
-// class Person{
-//   private name:string; // 私有类型
-//   constructor(name:string){
-//     this.name=name;
-//   }
-//   run():void{
-//     alert(`${this.name}在运动`)
-//   }
-// }
-
-// class Web extends Person{
-//   constructor(name:string){
-//     super(name);
-//   }
-//   work(){
-//     // console.log(`${this.name}在运动`) // private智能再父级访问 ts报错
-//   }
-// }
-// var w=new Web('李四')
-// w.run();
-
-// var p = new Person('哈哈')
-// p.run()
-
-/**
- * 静态属性 方法
- */
-
-// es5
-
-//  function Person(){
-//    this.run2=function(){
-//      alert(222)
-//    }
-//  }
-//  Person.name='111'
-//  Person.run1=function(){
-//    alert(111)
-//  }
-//  Person.run1();
-
-
-// ts 静态方法
-
-// class Person{
-//   name:string;
-//   public age:number=20;
-//   static sex:string='男';
-//   constructor(name:string){
-//     this.name=name;
-//   };
-//   run(){
-//     alert(`${this.name}在运动`)
-//   };// 实例方法
-//   work(){
-//     alert(`${this.name}在工作`)
-//   }
-//   static print(){
-//     // alert('prient方法')// 静态方法
-//     // alert(this.age) // 错误，静态方法不能直接使用类里里的属性
-//     alert(this.sex)// 静态属性可以使用
-//   }
-// }
-// Person.print();
-// var p = new Person('张三');
-// p.work();
-
-/**
- * 多态  父类定义一个方法不去实现，由子类实现，每个子类有不同的表现  
- * 多态属于继承
- */
-
-//  class Animal{
-//    public name:string;
-//    constructor(name:string){
-//      this.name=name;
-//    };
-//    eat(){ // 具体吃什么 不知道 具体吃什么继承子类实现，每个子类表现不同
-//      console.log('吃的方法')
-//    }
-//  }
-
-//  class Dog extends Animal{
-//    constructor(name:string){
-//      super(name);
-//    };
-//    eat(){
-//      return this.name+'吃肉';
-//    }
-//  }
-//  var d=new Dog('小虎');
-//   alert( d.eat())
-//  class Cat extends Animal{
-//    constructor(name:string){
-//      super(name);
-//    }
-//    eat(){
-//      return this.name+'吃老鼠';
-//    }
-//  }
-
-/**
- * 抽象方法 类 abstract关键字定义 也属于多态
- * abstract抽象方法只能放在抽象方法中 不包含具体的实现
- * 抽象类 方法用来定义标准
- * 抽象类的子类必须实现抽象类里的抽象方法
- */
-
-// abstract class Anmial{
-//   public name:string;
-//   constructor(name:string){
-//     this.name=name;
-//   }
-//   abstract eat():any;
-
-// }
-
-// // var a=new Anmial(); // 无法直接实例化抽象类
-// class Dog extends Anmial{
-//   // 抽象类的子类必须实现抽象类里的抽象方法
-//   constructor(name:any){
-//     super(name)
-//   }
-//   eat(){
-//     alert(this.name+'吃粮食')
-//   };
-// }
-// var d =new Dog('小狗')
-// d.eat();
-
-/**
- * ts 中的接口
- * 接口是一种规范的定义  在程序设计中 接口起到规范的作用
- * 可以对属性函数类等规范  定义标准
- */
-
-/**
- * 属性接口  对json的约束
- */
-
-// ts 定义传参的约束
-// function printLabel(label:string):void{
-//   console.log(label)
-// }
-// printLabel('111');
-
-// ts 中自定义方法对入参 json进行约束
-
-// function printLabel(labelinfo:{label:string}):void{
-//   console.log('printLabel')
-// }
-// printLabel({label:'2'});
-
-
-// 传入对象的约束 属性接口
-// interface FullName{
-//   firstName:string; // 注意分号结束  不是对象
-//   secondName:string;
-// }
-// function printLabel(name:FullName){
-//   // 必须传入对象，对象必须有firstname，secondname
-//   console.log(name.firstName+'--'+name.secondName)
-// }
-
-// var obj={
-//   firstName:'张',
-//   secondName:'三',
-//   age:20
-// }
-// printLabel(obj) // 如果在里面写，就只能有firstName和secondName  这样写不会报错
-
-
-// 对批量方法入参进行约束  接口
-
-// interface FullName{
-//   firstName:string; // 注意分号结束  不是对象
-//   secondName:string;
-// }
-
-// function printLabel(name:FullName){
-//   // 必须传入对象，对象必须有firstname，secondname
-//   console.log(name.firstName+'--'+name.secondName)
-// }
-
-// function printInfo(info:FullName){
-//   // 必须传入对象，对象必须有firstname，secondname
-//   console.log(info.firstName+'--'+info.secondName+'--'+info.age) // 使用时必须只包含Fullname中的，ts 会报错
-// }
-
-// var obj={
-//   firstName:'张',
-//   secondName:'三',
-//   age:20
-// }
-// printInfo(obj) 
-
-// 接口 可选属性
-
-// interface FullName {
-//   firstName: string;
-//   secondName?: string; // 加上问号可选
-// }
-
-// function getName(name:FullName){
-//   console.log(name)
-// }
-// getName({firstName:'first'})
-
-
-// 封装的ajax请求 原生js
+// ts封装ajax  不支持ie6
 interface Config {
   type: string;
   url: string;
-  data?: any;
-  dateType: string;
+  data?: string;
+  dataType: string;
 }
 function ajax(config: Config) {
-  var xhr = new XMLHttpRequest()
-  var param:string = '';
-  for (var attr in config.data) {
-    param += attr + '=' + config.data[attr] + '&';
-  }
-  if (param) {//substring(start, end)截取字符串去掉最后的&符号
-    param = param.substring(0, param.length - 1);
-  }
-  // console.log(param)
-  if (config.type == 'get') {
-    config.url += '?' + encodeURI(param);
-  }
+  let xhr = new XMLHttpRequest();
   xhr.open(config.type, config.url, true);
-  var data = null;
-  if (config.type == 'post') {
-    data = param;
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    //post模式下必须加的请求头，这个请求头是告诉服务器怎么去解析请求的正文部分。
-  }
-  xhr.send(data);
+  xhr.send(config.data);
   xhr.onreadystatechange = function () {
     if (xhr.readyState == 4 && xhr.status == 200) {
-      // console.log('成功')
-      if (config.dateType == 'json') {// json
-        // console.log(JSON.parse(xhr.responseText))
-      } else {// 其他
-        // console.log(xhr.responseText)
+      // // console.log("成功")
+      if (config.dataType == "json") {
+        // // console.log(JSON.parse(xhr.responseText))
+      } else {
+        // // console.log(xhr.responseText)
       }
+
     }
   }
 }
-ajax({
-  type: 'get',
-  url: 'http://a.itying.com/api/productlist',
-  data: { name: 'ahangsfs' },
-  dateType: 'json'
-})
+// ajax({
+//   type: "get",
+//   url: "http://a.itying.com/api/productlist", // url接口
+//   data: "",
+//   dataType: "json"
+// })
 
-// 函数类型接口，对方法传入的参数及返回值进行约束
+// 函数类型接口 对方法传入参数及返回值进行约束
+// 加密的函数类型接口
+interface encrypt {
+  (key: string, value: string): string; // 声明入参为 key 和 value 的字符串 返回值为字符串的约束
+}
+let md5: encrypt = function (key: string, value: string): string { // 必须有key value且为字符串 返回值必须为字符串
+  return `${key}${value}`
+}
+let sha1: encrypt = function (key: string, value: string): string {
+  return `${value}${key}`
+}
+// alert(md5("name", "张三"))
+// alert(sha1("aaa", "李四"))
 
-// 加密的函数类型
-// interface encrypt {
-//   (key: string, value: string): string; // 约束一个方法 传入两个string，返回一个string
-// }
+// 可索引接口 对数组对象的约束 不常用
+// let arr4: number[] = [1, 2, 3]
+// let arr5: Array<number> = [1, 2, 3]
+interface UserArr {
+  [index: number]: number
+}
+interface UserObj {
+  [index: string]: number | string
+}
+let arr4: UserArr = [1, 2, 3] // 数组约束
+let obj: UserObj = { name: "王", age: 20 } // 对象约束
 
-// var md5: encrypt = function (key: string, value: string): string {
-//   // 定义encrypt约束时 传入必须两个string 返回值必须写，必须为string
-//   alert(key + value)
-//   return key + value;
-// }
+// 类类型接口 对类的约束 和抽象类相似
+interface DongWu {
+  name: string; // 属性
+  eat(str: string): void; // 方法 必须有 但是可以不用写入参
+}
 
-// md5('name','zhangsan')
+class Dog2 implements DongWu {
+  name: string;
+  constructor(name: string) {
+    this.name = name;
+  }
+  eat(str: string): void {
+    // console.log(this.name + "吃" + str)
+  }
+}
+class Cat2 implements DongWu {
+  name: string;
+  constructor(name: string) {
+    this.name = name;
+  }
+  eat() {
+    // console.log(this.name + "吃老鼠")
+  }
+}
+let d = new Dog2("小黑")
+d.eat("肉")
+let c = new Cat2("小花")
+c.eat()
 
-// 可索引接口  对数组对象约束 不常用
+// 接口拓展 接口可以继承接口
+interface Animal2 {
+  eat(): void;
+}
+interface Person3 extends Animal2 { // 注意不要和类或者其他接口重名
+  work(): void;
+}
+class WorkMan {
+  name: string
+  constructor(name: string) {
+    this.name = name;
+  }
+  harder(work: string): void {
+    // console.log(work + "太难了")
+  }
+}
+class WebWorker extends WorkMan implements Person3 { // 定义的类要有 eat 和 work 方法
+  constructor(name: string) { // 可以类和接口一起继承
+    super(name)
+  }
+  work(): void {
+    // console.log(this.name + "在打代码")
+  }
+  eat(): void {
+    // console.log(this.name + "吃肉")
+  }
+}
+let wang = new WebWorker("小王")
+wang.work()
+wang.eat()
+wang.harder("C++")
 
-// interface userArray{
-//  [index:number]:string;
-
-// }
-// var Array1:userArray=['21','22'] // 约束为userArray类型，索引为数值型，值为string
-// console.log(Array1)
-// var obj1:userArray={1:'name',2:'age'} // 对象为这种类型时 索引为数值，值为string
-// console.log(obj1)
-
-// 类类型接口 对类的约束  和抽象类有点相似 常用
-
-// interface Animal{
-//   name:string;
-//   eat(str:string):void;
-// }
-
-// class Dog implements Animal{
-//   public name:string;
-//   constructor(name:string){
-//     this.name=name;
-//   };
-//   eat(){
-//     console.log(this.name+'吃肉')
-//   }
-// }
-
-// var d=new Dog('大黄')
-// d.eat();
-
-// class Cat implements Animal{
-//   public name:string;
-//   constructor(name:string){
-//     this.name=name;
-//   };
-//   eat(food:string){
-//     console.log(this.name+'吃'+food)
-//   }
-// }
-
-// var dd=new Cat('小花')
-// dd.eat('老鼠');
-
-// 接口的拓展 接口可以继承接口
-
-// interface Anmial {
-//   eat(): void;
-// }
-// interface Person extends Anmial {
-//   work(workValue:string): void;
-// }
-
-// class Web implements Person {
-//   name: string;
-//   constructor(name: string) {
-//     this.name = name;
-//   }
-//   eat() {
-//     console.log(this.name+'吃馒头')
-//    };
-//   work(workValue:string) { // 如果接口有参数可以不写，但是如果接口没有参数不能写参数
-//     console.log(this.name+"在"+workValue)
-//   }
-// }
-
-// var w=new Web('小磊')
-
-// w.work('写代码')
-
-// interface Anmial {
-//   eat(): void;
-// }
-// interface Person extends Anmial {
-//   work(workValue: string): void;
-// }
-
-// class Pro {
-//   name: string;
-//   constructor(name: string) {
-//     this.name = name;
-//   };
-//   coding(code: string) {
-//     console.log(this.name + code)
-//   }
-// }
-
-// class Web extends Pro implements Person { // 可以继承和接口一起写
-//   constructor(name: string) {
-//     super(name);
-//   }
-//   eat() {
-//     console.log(this.name + '吃馒头')
-//   };
-//   work(workValue: string) { // 如果接口有参数可以不写，但是如果接口没有参数不能写参数
-//     console.log(this.name + "在" + workValue)
-//   }
-// }
-
-// var w = new Web('小磊')
-
-// w.work('写代码')
-// w.coding('爱吃肉')
-
-/**
- * ts 中的泛型 
- * 泛型  可以创建可重用的接口类方法  可以支持多种数据类型
- */
-
-// 只能返回string类型
-//  function getData(vlaue:string):string{
-//   return vlaue;
-//  }
-// 如果想同时返回string和number类型
-// 可以设置any解决  但是any放弃了类型检查 期望传入什么类型返回什么类型
-// 泛型可以支持不特定的数据类型  要求传入参数和返回参数数据类型一致
-
-//  function getData<T>(value:T):T{ // T表示泛型  具体什么类型调用方法决定
-//    return value;
-//  }
-// function getData<T>(value:T):any{ // T表示泛型  具体什么类型调用方法决定
-//   return value;
-// }
-//  getData<number>(123) // 定义类型为number 传入只能时number
-
-// getData<string>('123')
+// ts中的泛型 解决类、方法、接口可复用性
+function getData<T>(value: T): T { // 泛型的 T 可以选择任意大写字母
+  return value
+}
+getData<number>(123) // 约束入参格式 
 
 // 泛型类
-
-// class MinClass {
-//   public list: number[] = [];
-//   add(num: number) { // 只能传入number类型
-//     this.list.push(num)
-//   }
-//   min(): number {
-//     var minNum = this.list[0];
-//     for (var i = 1; i < this.list.length; i++) {
-//       if (minNum > this.list[i]) {
-//         minNum = this.list[i]
-//       }
-//     }
-//     return minNum;
-//   }
-// }
-
-// var m=new MinClass();
-// m.add(21)
-// m.add(23)
-// m.add(2)
-// m.add(34)
-// alert(m.min())
-
-// 类的泛型
-// class MinClass<T>{
-//   public list: T[] = [];
-//   add(num: T):void { // 只能传入number类型
-//     this.list.push(num)
-//   }
-//   min(): T {
-//     var minNum = this.list[0];
-//     for (var i = 1; i < this.list.length; i++) {
-//       if (minNum > this.list[i]) {
-//         minNum = this.list[i]
-//       }
-//     }
-//     return minNum;
-//   }
-// }
-
-// var m=new MinClass<number>();  // 实例化类，并且指定类的泛型number 也可写成<number|string>可以为number或string泛型
-
-// m.add(21)
-// m.add(23)
-// m.add(2)
-// m.add(34)
-// alert(m.min())
+// 最小推算法 同时支持字符串和数字两种类型 用过泛型来实现
+class MinClass<T>{
+  public list: T[] = [];
+  add(value: T): void {
+    this.list.push(value)
+  }
+  min(): T {
+    let minNum = this.list[0];
+    for (let i: number = 1; i < this.list.length; i++) {
+      if (minNum > this.list[i]) {
+        minNum = this.list[i]
+      }
+    }
+    return minNum
+  }
+}
+let numList = new MinClass()
+// let numList1 = new MinClass<string>() // 如果指定类型则只能使用指定类型
+numList.add(1)
+numList.add("0")
+numList.add("2")
+numList.add(1)
+// console.log(numList.min())
 
 // 泛型接口
+// 第一种定义泛型接口
+interface Configfn {
+  <T>(value1: T): T;
+}
+let setData: Configfn = function <T>(value: T): T {
+  return value
+}
+// alert(setData<string>("张三")) // 指定入参格式
+// console.log(setData<number>(111))
 
-// 第一种
-// interface configFn{
-//   <T>(value1:T):T;// 定义一个函数接口
-// }
-// var setData:configFn=function<T>(a:T){
-//   return a;
-// }
+// 第二种定义泛型
+interface Configfn1<T> {
+  (value: T): T;
+}
+let setData1: Configfn1<string> = function (value: string): string {
+  return value
+}
+// console.log(setData1("20"))
 
-// alert(setData<string>('老王'))
-
-// 第二种
-
-// interface configFn<T>{
-//   (value1:T):T;// 定义一个函数接口
-// }
-// function getData<T>(a:T){
-//   return a;
-// }
-
-// var myGetData:configFn<string>=getData;
-
-// // myGetData(111) // 错误
-// alert(myGetData('111')) // 正确
-
-// 把类作为参数的泛型类
-
-// class User {
-//   userName:string|undefined;
-//   password:string|undefined; // 可以不赋值
-//   // constructor(name:string){
-//   //   this.userName=name;
-//   // }
-// }
-
-// class ActiveCate{
-//   title:string|undefined;
-//   desc:string|undefined;
-//   status:number|undefined;
-// }
-
-// class MySqlDB{
-//   add(user:User):boolean{ // 可以用类作为参数来约束数据类型
-//     console.log(user)
-//     return true;
-//   };
-//   book(info:ActiveCate):boolean{
-//     console.log(info)
-//     return true;
-//   }
-// }
-
-// // var u=new User()
-// // u.userName="张三";
-// // u.password="123456";
-// // var db=new MySqlDB();
-// // db.add(u);
-// var u=new ActiveCate();
-// u.title="国内";
-// u.desc="新闻";
-// u.status=2;
-// var db=new MySqlDB();
-// db.book(u)
-
-// 使用泛型
-
-// class User {
-//   userName:string|undefined;
-//   password:string|undefined; 
-// }
-// class ActiveCate{
-//   title:string|undefined;
-//   desc:string|undefined;
-//   status:number|undefined;
-//   constructor(title:string,desc:string,status?:number){
-//     this.title=title;
-//     this.status=status;
-//     this.desc=desc
-//   }
-// }
-
-// class MySqlDB<T>{
-//   add(user:T):boolean{ // 可以用类作为参数来约束数据类型
-//     console.log(user)
-//     return true;
-//   };
-//   update(info:T,id:number):boolean{
-//     console.log(info)
-//     console.log(id);
-//     return true;
-//   }
-// }
-// // 想给user表增加数据
-
-// // var u=new User();
-// // u.userName="张三";
-// // u.password="12324"
-// // var db=new MySqlDB<User>(); // 泛型类，对不特定类型进行验证
-// // db.add(u); 
-// // var a=new ActiveCate("分类","新闻",112);
-// // var db=new MySqlDB<ActiveCate>();
-// // db.add(a);
-// var a= new ActiveCate("分类","新闻",222)
-// var db=new MySqlDB<ActiveCate>();
-// db.update(a,222);
-
+// 泛型类 把类作为参数来约束参数的泛型类
 /**
- * 统一操作mysql  mongodb mssql的底层操作
- * 定义一个操作数据的库，支持mysql  mongdb  mssql
- * 约束统一规范，代码重用
+ * 定义一个user类 映射数据库字段
+ * 定义一个MysqlDB的类 用于操作数据库
+ * 把user类作为参数传入MysqlDB
  */
+class MysqlDB<T>{
+  add(info: T): boolean {
+    // console.log(info)
+    return true;
+  }
+  update(info: T, id: number): boolean {
+    // console.log(info)
+    // console.log(id)
+    return true
+  }
+}
+class User {
+  userName: string | undefined;
+  passWord: string | undefined;
+  constructor(userName: string, passWord: string) {
+    this.userName = userName;
+    this.passWord = passWord
+  }
+}
+class ArticlaCate {
+  title: string | undefined;
+  desc: string | undefined;
+  status: number | undefined;
+  id: number | undefined;
+  constructor(params: { title: string, desc: string, status?: number, id?: number }) {
+    this.title = params.title;
+    this.desc = params.desc;
+    this.status = params.status;
+    this.id = params.id;
+  }
+}
+let user1 = new User("wang", "123456")
+let userDB = new MysqlDB<User>() // 在这里对数据约束
+// userDB.add(user1)
 
-// interface DBI<T> {
-//   add(info: T): boolean;
-//   update(info: T, id: number): boolean;
-//   delete(id: number): boolean;
-//   get(id: number): any[];
+let aaa = new ArticlaCate({ title: "国内", desc: "国内新闻", status: 111 })
+aaa.id = 111
+let db = new MysqlDB<ArticlaCate>()  // 在这里对数据约束
+// db.add(aaa)
+db.update(aaa, 11)
+
+// ts封装统一操作 mysql mongodb mssql的底层库
+// 代码重用
+interface DBI<T> {
+  add(info: T): boolean;
+  update(info: T, id: number): boolean;
+  delete(id: number): boolean;
+  get(id: number): any[];
+}
+
+// ts中的模块 把一些公共功能分离出去 使用 export 暴露 其他文件需要使用的时候 import 引入
+import { UserClass, UserModel } from "./model/user"
+import { ArticleClass, ArticleModel } from "./model/atricle"
+let u = new UserClass()
+u.userName = "zhangsan"
+u.passWord = "123456"
+// UserModel.add(u)
+// UserModel.get(11)
+
+let article = new ArticleClass();
+article.title = "中国"
+article.desc = "中国地理"
+article.id = 1232332
+// ArticleModel.get(1232332)
+
+// ts中的命名空间  组织代码 避免命名空间
+import { A, B } from "./moduls/namespace"
+let ADog = new A.Dog("狼狗")
+// console.log(ADog.eat())
+
+let BDog = new B.Dog("大黄狗")
+// console.log(BDog.eat())
+
+// // ts中的装饰器 类装饰器 属性装饰器 方法装饰器等等
+// // 类装饰器
+// // 普通装饰器 传入 params 当前类
+// function logClass(params: any) {
+//   // console.log(params) // params就是当前类 可以在这里拓展属性或者方法
+//   params.prototype.apiUrl = "xxxx" // 动态拓展的属性
+//   params.prototype.run = function (): void {
+//     console.log("我是一个run方法")
+//   }
 // }
-
-// // 定义一个mysql类
-
-// class MySqlDB<T> implements DBI<T>{  // 要实现泛型接口 类也应该是泛型类
+// @logClass       // 调用装饰器 在那个上面写就是装饰那个
+// class HttpClient {
 //   constructor() {
-//     console.log('数据库建立连接')
+
 //   }
-//   add(info: T): boolean {
-//     console.log(info)
-//     return true;
-//   };
-//   update(info: T, id: number): boolean {
-//     throw new Error("Method not implemented.");
-//   };
-//   delete(id: number): boolean {
-//     throw new Error("Method not implemented.");
-//   };
-//   get(id: number): any[] {
-//     throw new Error("Method not implemented.");
-//   };
+//   getData(): void { }
 // }
 
-// class MsSqlDB<T> implements DBI<T>{
-//   add(info: T): boolean {
-//     console.log(info)
-//     return true;
-//   };
-//   update(info: T, id: number): boolean {
-//     throw new Error("Method not implemented.");
-//   };
-//   delete(id: number): boolean {
-//     throw new Error("Method not implemented.");
-//   };
-//   get(id: number): any[] {
-//     var list = [
-//       { title: 111, desc: "xxxx" },
-//       { title: 222, desc: "dsfsfs" }
-//     ];
-//     return list;
-//   };
-// }
+// let http: any = new HttpClient();
+// console.log(http.run())
 
-// // 操作用户表
+// 装饰器工厂 带参数的装饰器 应用比较多
+function logClass1(params: string) {
+  return function (target: any) {
+    target.prototype.apiUrl = params
+  }
+}
+@logClass1("http://www.itying.com/api")
+class HttpClient1 {
+  constructor() {
 
-// class User {
-//   username: string | undefined;
-//   password: string | undefined;
-// }
+  }
+  getData(): void { }
+}
+let http1: any = new HttpClient1()
+// console.log(http1.apiUrl)
 
-// var u = new User();
-// u.username = '张三'
-// u.password = 'fsadf'
+// 类装饰器重载构造函数 每个属性 方法都要修改
+function logClass2(target: any) {
+  return class extends target {
+    apiUrl: string = "我是修改后的数据"
+    getData() {
+      console.log(this.apiUrl + "111")
+    }
+  }
+}
+@logClass2
+class HttpClient2 {
+  public apiUrl: string | undefined
+  constructor() {
+    this.apiUrl = "我是构造函数里面的apiUrl"
+  }
+  getData(): void {
+    console.log(this.apiUrl)
+  }
+}
 
-// var omysql = new MySqlDB<User>(); // 约束传入参数 
-// // omysql.add(u);
-// var mssql = new MsSqlDB<User>();
-// mssql.add(u);
-// console.log(mssql.get(4));
+let http2 = new HttpClient2();
+// http2.getData()
 
-/**
- * ts 中的模块
- * 内部模块
- * 外部模块
- */
-// import {getData} from './moduls/db'
-
-// getData();
-
-/**
- * 命名空间
- * 用于组织代码，避免命名冲突
- */
-
-// namespace A {  // namespace 命名空间，避免命名冲突 
-//   interface Animal {
-//     name: string;
-//     eat(): void;
-//   }
-
-//   export class Dog implements Animal { // 私有的，需要export暴露出来
-//     name: string;
-//     constructor(theName: string) {
-//       this.name = theName;
-//     }
-//     eat() {
-//       console.log(`${this.name}吃狗粮`);
-//     }
-//   }
-//   export class Cat implements Animal {
-//     name: string;
-//     constructor(theName: string) {
-//       this.name = theName;
-//     }
-//     eat() {
-//       console.log(`${this.name}吃老鼠`);
-//     }
-//   }
-// }
-// // import {B} from './moduls/spaceName'
-// var d=new A.Dog('狼狗')
-// d.eat();
-// var e=new B.Dog('小狼狗')
-// e.eat();
-
-/**
- * 装饰器
- * 一种方法 一种特殊类型的声明，可以放在类、属性、方法中拓展类、属性、方法 可以修改类的行为
- * 使用方式，卸载类、属性、方法前，用于修改或拓展类、属性、方法
- * es7标准特性之一
- */
-
+// 属性装饰器 接收两个参数 原型对象 当前属性名称
 // 类装饰器
+function logClass3(params: string) {
+  return function (target: any) {
+    target.prototype.apiUrl = params
+  }
+}
+// 属性装饰器
+function logProperty(parmas: any) {
+  return function (target: any, attr: any) {
+    // target 类
+    // attr 装饰器装饰的属性 写在那个属性前面
+    target[attr] = parmas;
+  }
+}
+@logClass3("xxx")
+class HttpClient3 {
+  @logProperty('http://itying.com')
+  public url: string | undefined
+  constructor() {
 
-// 普通装饰器
+  }
+  getData(): void {
+    console.log(this.url)
+  }
+}
+let http3: any = new HttpClient3()
+// http3.getData();
+// 装饰器
+function get(parmas: any) {
+  return function (target: any, methodName: any, desc: any) {
+    // console.log(target) // 方法的原型对象
+    // console.log(methodName) //方法的名称
+    // console.log(desc) // 方法的属性描述 里面的value就是方法
+    // target.apiUrl = "xxx"
+    // target.run = function (): void {
+    //   console.log('run')
+    // }
+    // 修改装饰器的方法 把装饰器方法传入所有参数改为string
+    // 1.保存当前方法
+    var oMethod = desc.value;
+    // 替换当前方法
+    // desc.value = function (...args: any[]) {
+    //   args = args.map((item) => {
+    //     return String(item);
+    //   })
+    //   console.log(args)
+    // }
+    // 修改当前方法 对象冒充
+    desc.value = function (...args: any[]) {
+      args = args.map((item) => {
+        return String(item);
+      })
+      oMethod.apply(this, args) // 对象冒充
+    }
+  }
+}
+class HttpClient4 {
+  public url: string | undefined
+  constructor() {
 
-//  function logClass(params:any){ // 装饰器
-//   // console.log(params); // params 当前类
-//   params.prototype.apiUrl='xxx'  // 动态拓展的属性
-//   params.prototype.run=function(){
-//     console.log('我是一个run方法') // 拓展方法
-//   }
-//  }
-//  @logClass
-//  class HttpClient{
-//    constructor(){
+  }
+  @get('http://www.itying.com')
+  getData(...args: any[]): void {
+    console.log(args)
+    console.log("我是getData的方法")
+  }
+}
 
-//    }
-//    getData(){
+var http4: any = new HttpClient4();
+// http4.run()
+// http4.getData(1, 2, 3, true)
 
-//    }
-//  }
-//  var http:any=new HttpClient();
-//  console.log(http.apiUrl);
-//  http.run();
+// 方法参数装饰器 为类的原型添加一些元数据 用的比较少
+function logParams(params: any) {
+  return function (target: any, paramsName: any, paramsIndex: any) {
+    // console.log(target)  // 原型对象
+    // console.log(paramsName)  // 方法名称
+    // console.log(paramsIndex) // 参数索引
+    // console.log(params)
+    target.apiUrl = params
+  }
+}
+class HttpClient5 {
+  public url: string | undefined
+  constructor() {
 
-// 装饰器工厂
+  }
+  getData(@logParams('xxxx') uid: any): void {
+    console.log('1232')
+  }
+}
 
-//  function logClass(params:string){ // 装饰器
-//   return function(target:any){
-//     // console.log(target);  // 拓展的类
-//     // console.log(params);  // 传参
-//     target.prototype.apiUrl=params;
-
-//   }
-//  }
-//  @logClass('http://www.itying.com/api')
-//  class HttpClient{
-//    constructor(){
-
-//    }
-//    getData(){
-
-//    }
-//  }
-
-//  var http:any=new HttpClient();
-//  console.log(http.apiUrl)
-
-// 类装饰器重载构造函数
-
-//  function logClass(target:any){ // 装饰器
-//     console.log(target)
-//     return class extends target{
-//       apiUrl:any; // 类装饰器重载以前的类
-//       getData(){ 
-//         this.apiUrl=this.apiUrl+'---'
-//         console.log(this.apiUrl)
-//       }
-//     }
-//  }
-//  @logClass
-
-//   class HttpClient{
-//     apiUrl:string|undefined;
-//     constructor(){
-//       this.apiUrl='我是构造函数apiurl'
-//     }
-//     getData(){
-//       console.log(this.apiUrl)
-//     }
-//  }
-
-//  var a=new HttpClient;
-//  a.getData();
-
-
-// 属性装饰器 接收两个参数  1.构造器函数 2.成员的名称
-
-// function logClass(params: string) { // 类装饰器
-//   return function (target: any) {
-//     // console.log(target);  // 拓展的类
-//     // console.log(params);  // 传参
-//   }
-// }
-
-// // 属性装饰器
-// function logProperty(params: any) {
-//   return function (target: any, attr: any) {
-//     // console.log(target);
-//     target[attr] = params;
-//     // console.log(attr)
-//   }
-// }
-// @logClass('xxx')
-// class HttpClient {
-//   @logProperty('http://itying.com')  // 装饰器写在谁前面就修饰谁
-//   public url: any | undefined;
-//   @logProperty('老王')
-//   public name: string | undefined;
-//   constructor() {
-
-//   }
-//   getData() {
-//     // console.log(this.name)
-//   }
-// }
-
-// var a = new HttpClient();
-// a.getData();
-
-// 方法装饰器
-// 接收三个参数 1.原型对象 2.方法名称 3.方法描述
-// 扩展当前类的属性和方法
-
-// function get(params:any){
-//   return function(target:any,methods:any,desc:any){
-//     console.log(target);
-//     console.log(methods);
-//     console.log(desc);
-//     target.apiUrl='xxx';
-//     target.run=function(){  // 扩展当前类的属性和方法
-//       console.log('run');
-//     }
-//   }
-// }
-
-// class HttpClient {
-//   public url: any | undefined;
-//   constructor() {
-
-//   }
-//   @get('http://www.itying.com')
-//   getData() {
-//     console.log(this.url)
-//   }
-// }
-
-// var http:any=new HttpClient()
-// console.log(http.apiUrl)
-// http.run();
-
-// 修改装饰器方法
-
-// function get(params:any){
-//   return function(target:any,methods:any,desc:any){
-//     // console.log(target);
-//     // console.log(methods);
-//     // console.log(desc);
-//     // 修改当前方法 把装饰器的方法传入参数改为string类型
-//     // 1.保存当前方法
-//     var oMthod=desc.value
-//     desc.value=function(...args:any[]){
-//       args=args.map((value)=>{
-//         return String(value)
-//       })
-//       oMthod.apply(this,args) // 对象冒充
-//     }
-//   }
-// }
-
-// class HttpClient {
-//   public url: any | undefined;
-//   constructor() {
-
-//   }
-//   @get('http://www.itying.com')
-//   getData(...args:any[]) {
-//     console.log('我是getData的方法')
-//     console.log(args)
-//   }
-// }
-
-// var http:any = new HttpClient();
-// http.getData(111,111,222)
-
-// 方法参数装饰器  不常用
-
-// function logParams(params:any){
-//   return function(target:any,methodName:any,paramsIndex:any){
-//     // console.log(params)
-//     // console.log(target)
-//     // console.log(methodName);
-//     // console.log(paramsIndex)
-//     target.apiUrl=params;
-//   }
-// }
-
-// class HttpClient {
-//   public url: any | undefined;
-//   constructor() {
-
-//   }
-//   getData(@logParams('xxxx') uuid:any) {  // 参数装饰器
-//     console.log('我是getData的方法')
-//   }
-// }
-  
-// var http:any =new HttpClient();
-// http.getData(123456)
-// console.log(http.apiUrl)
+var http5: any = new HttpClient5();
+// http5.getData(123456)
+// console.log(http5.apiUrl)
 
 // 各种装饰器的执行顺序
-// 属性>>方法/参数>>方法>>类   如果有多个同类型装饰器，从后往前执行
- function logClass1(target:any){ // 装饰器
-    return function(target:any){
-      console.log('类装饰器')
-    }
- }
- function logClass2(target:any){ // 装饰器
-  return function(target:any){
-    console.log('类装饰器')
-  }
-}
-function logAttribute(params?:string){ // 装饰器
-  return function(target:any,attrName:any){
-    console.log('属性装饰器')
-  }
-}
-function logMthods(params?:string){ // 装饰器
-  return function(target:any,attrName:any,desc:any){
-    console.log('方法装饰器')
-  }
-}
-function logParams1(params?:string){ // 装饰器
-  return function(target:any,attrName:any,desc:any){
-    console.log('方法参数装饰器1')
-  }
-}
-function logParams2(params?:string){ // 装饰器
-  return function(target:any,attrName:any,desc:any){
-    console.log('方法参数装饰器2')
-  }
-}
- @logClass1('http://www.itying.com')
- @logClass2('xxx')
-  class HttpClient{
-    @logAttribute()
-    public apiUrl:string|undefined;
-    constructor(){
-    }
-    @logMthods()
-    getData(@logParams1() attr1:any,@logParams2() attr2:any){
+// 属性装饰器=>放啊发装饰器=>方法参数装饰器=>类装饰器
+// 如果有多个同类装饰器 从后往前执行 例 两个方法装饰器会先执行最后一个方法装饰器
+import { zsq } from './moduls/zsq'
+@zsq.logClass1('http://www.itying.com')
+@zsq.logClass2('xxxx')
+class HttpClient6 {
+  @zsq.logAttribute()
+  public url: string | undefined
+  constructor() {
 
-    }
- }
-var http:any = new HttpClient();
+  }
+  @zsq.logMethods()
+  getData(): void { }
+  setData(@zsq.logParams1() attr1: any, @zsq.logParams2() attr2: any) { }
+}
+var http: any = new HttpClient6();
