@@ -29,6 +29,7 @@ flag = 456;
 // var flag:string|number
 
 /**
+ *  npm/cnpm/yarn 安装typescript
  *  tsc --init 生成tsconfig.json 文件
  *  可以监听导出js文件 文件名和ts文件一样
  *  tscconfig.json文件中outDir指定typescript监控导出js文件的目录
