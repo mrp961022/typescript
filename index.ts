@@ -26,7 +26,7 @@ let f = Flag.success;
 let l = Flag.error;
 // console.log(f)
 // console.log(l)
-enum Color { red, blue, orange } // 没有赋值默认为索引值
+enum Color { red, blue, orange } // 没有赋值默认为索引值 如果其中有一个为数字的话 后面的元素在他基础上递增
 let clr = Color.blue;
 // console.log(clr)
 

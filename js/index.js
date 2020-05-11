@@ -56,7 +56,7 @@ var Color;
     Color[Color["red"] = 0] = "red";
     Color[Color["blue"] = 1] = "blue";
     Color[Color["orange"] = 2] = "orange";
-})(Color || (Color = {})); // 没有赋值默认为索引值
+})(Color || (Color = {})); // 没有赋值默认为索引值 如果其中有一个为数字的话 后面的元素在他基础上递增
 var clr = Color.blue;
 // console.log(clr)
 // 任意类型any undefined null never
