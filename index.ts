@@ -628,7 +628,7 @@ function get(parmas: any) {
     // }
     // 修改装饰器的方法 把装饰器方法传入所有参数改为string
     // 1.保存当前方法
-    var oMethod = desc.value;
+    let oMethod = desc.value;
     // 替换当前方法
     // desc.value = function (...args: any[]) {
     //   args = args.map((item) => {
@@ -657,7 +657,7 @@ class HttpClient4 {
   }
 }
 
-var http4: any = new HttpClient4();
+let http4: any = new HttpClient4();
 // http4.run()
 // http4.getData(1, 2, 3, true)
 
@@ -681,7 +681,7 @@ class HttpClient5 {
   }
 }
 
-var http5: any = new HttpClient5();
+let http5: any = new HttpClient5();
 // http5.getData(123456)
 // console.log(http5.apiUrl)
 
@@ -701,4 +701,4 @@ class HttpClient6 {
   getData(): void { }
   setData(@zsq.logParams1() attr1: any, @zsq.logParams2() attr2: any) { }
 }
-var http: any = new HttpClient6();
+let http: any = new HttpClient6();
