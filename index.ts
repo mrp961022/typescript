@@ -287,10 +287,18 @@ interface Config {
   url: string;
   data?: string;
   dataType: string;
+  contentType?: string;
 }
 function ajax(config: Config) {
   let xhr = new XMLHttpRequest();
-  xhr.open(config.type, config.url, true);
+  if (config.type.toLocaleLowerCase() == 'get') {
+    xhr.open(config.type, `${config.url}?${config.data}`, true);
+  } else {
+    xhr.open(config.type, `${config.url}`, true);
+  }
+  if (config.contentType) {
+    xhr.setRequestHeader('Content-Type', config.contentType)
+  }
   xhr.send(config.data);
   xhr.onreadystatechange = function () {
     if (xhr.readyState == 4 && xhr.status == 200) {
@@ -305,11 +313,19 @@ function ajax(config: Config) {
   }
 }
 // ajax({
-//   type: "get",
+//   type: "post",
 //   url: "http://a.itying.com/api/productlist", // url接口
-//   data: "",
-//   dataType: "json"
+//   data: `userName=${'王'}&passWord=${'111222'}`,
+//   dataType: "json",
+//   contentType: "application/x-www-form-urlencoded;charset=UTF-8"  // post要加请求头
 // })
+
+ajax({
+  type: "get",
+  url: "http://a.itying.com/api/productlist", // url接口
+  data: `userName=${'王'}&passWord=${'111222'}`,
+  dataType: "json",
+})
 
 // 函数类型接口 对方法传入参数及返回值进行约束
 // 加密的函数类型接口
