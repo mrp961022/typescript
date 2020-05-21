@@ -1,14 +1,4 @@
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
-Object.defineProperty(exports, "__esModule", { value: true });
 let flag = true; // typescript 声明变量需要定义类型 且类型不能改变
 flag = false; // 正确
 // falg = 1  // 错误
@@ -257,6 +247,7 @@ function cnStrudnt(fullName) {
 }
 outName({ firstName: "布鲁斯", lastName: "李" });
 cnStrudnt({ firstName: "王", lastName: "小二" });
+console.log(md5);
 function ajax(config) {
     let xhr = new XMLHttpRequest();
     if (config.type.toLocaleLowerCase() == 'get') {
@@ -294,9 +285,9 @@ ajax({
     data: `userName=${'王'}&passWord=${'111222'}`,
     dataType: "json",
 });
-let md5 = function (key, value) {
-    return `${key}${value}`;
-};
+// let md5: encrypt = function (key: string, value: string): string { // 必须有key value且为字符串 返回值必须为字符串
+//   return `${key}${value}`
+// }
 let sha1 = function (key, value) {
     return `${value}${key}`;
 };
@@ -422,200 +413,180 @@ let db = new MysqlDB(); // 在这里对数据约束
 // db.add(aaa)
 db.update(aaa, 11);
 // ts中的模块 把一些公共功能分离出去 使用 export 暴露 其他文件需要使用的时候 import 引入
-const user_1 = require("./model/user");
-const atricle_1 = require("./model/atricle");
-let u = new user_1.UserClass();
-u.userName = "zhangsan";
-u.passWord = "123456";
-// UserModel.add(u)
-// UserModel.get(11)
-let article = new atricle_1.ArticleClass();
-article.title = "中国";
-article.desc = "中国地理";
-article.id = 1232332;
-// ArticleModel.get(1232332)
-// ts中的命名空间  组织代码 避免命名空间
-const namespace_1 = require("./moduls/namespace");
-let ADog = new namespace_1.A.Dog("狼狗");
-// console.log(ADog.eat())
-let BDog = new namespace_1.B.Dog("大黄狗");
-// console.log(BDog.eat())
-// // ts中的装饰器 类装饰器 属性装饰器 方法装饰器等等
-// // 类装饰器
-// // 普通装饰器 传入 params 当前类
-// function logClass(params: any) {
-//   // console.log(params) // params就是当前类 可以在这里拓展属性或者方法
-//   params.prototype.apiUrl = "xxxx" // 动态拓展的属性
-//   params.prototype.run = function (): void {
-//     console.log("我是一个run方法")
+// import { UserClass, UserModel } from "./model/user"
+// import { ArticleClass, ArticleModel } from "./model/atricle"
+// let u = new UserClass()
+// u.userName = "zhangsan"
+// u.passWord = "123456"
+// // UserModel.add(u)
+// // UserModel.get(11)
+// let article = new ArticleClass();
+// article.title = "中国"
+// article.desc = "中国地理"
+// article.id = 1232332
+// // ArticleModel.get(1232332)
+// // ts中的命名空间  组织代码 避免命名空间
+// import { A, B } from "./moduls/namespace"
+// let ADog = new A.Dog("狼狗")
+// // console.log(ADog.eat())
+// let BDog = new B.Dog("大黄狗")
+// // console.log(BDog.eat())
+// // // ts中的装饰器 类装饰器 属性装饰器 方法装饰器等等
+// // // 类装饰器
+// // // 普通装饰器 传入 params 当前类
+// // function logClass(params: any) {
+// //   // console.log(params) // params就是当前类 可以在这里拓展属性或者方法
+// //   params.prototype.apiUrl = "xxxx" // 动态拓展的属性
+// //   params.prototype.run = function (): void {
+// //     console.log("我是一个run方法")
+// //   }
+// // }
+// // @logClass       // 调用装饰器 在那个上面写就是装饰那个
+// // class HttpClient {
+// //   constructor() {
+// //   }
+// //   getData(): void { }
+// // }
+// // let http: any = new HttpClient();
+// // console.log(http.run())
+// // 装饰器工厂 带参数的装饰器 应用比较多
+// function logClass1(params: string) {
+//   return function (target: any) {
+//     target.prototype.apiUrl = params
 //   }
 // }
-// @logClass       // 调用装饰器 在那个上面写就是装饰那个
-// class HttpClient {
+// @logClass1("http://www.itying.com/api")
+// class HttpClient1 {
 //   constructor() {
 //   }
 //   getData(): void { }
 // }
-// let http: any = new HttpClient();
-// console.log(http.run())
-// 装饰器工厂 带参数的装饰器 应用比较多
-function logClass1(params) {
-    return function (target) {
-        target.prototype.apiUrl = params;
-    };
-}
-let HttpClient1 = class HttpClient1 {
-    constructor() {
-    }
-    getData() { }
-};
-HttpClient1 = __decorate([
-    logClass1("http://www.itying.com/api")
-], HttpClient1);
-let http1 = new HttpClient1();
-// console.log(http1.apiUrl)
-// 类装饰器重载构造函数 每个属性 方法都要修改
-function logClass2(target) {
-    return class extends target {
-        constructor() {
-            super(...arguments);
-            this.apiUrl = "我是修改后的数据";
-        }
-        getData() {
-            console.log(this.apiUrl + "111");
-        }
-    };
-}
-let HttpClient2 = class HttpClient2 {
-    constructor() {
-        this.apiUrl = "我是构造函数里面的apiUrl";
-    }
-    getData() {
-        console.log(this.apiUrl);
-    }
-};
-HttpClient2 = __decorate([
-    logClass2
-], HttpClient2);
-let http2 = new HttpClient2();
-// http2.getData()
-// 属性装饰器 接收两个参数 原型对象 当前属性名称
-// 类装饰器
-function logClass3(params) {
-    return function (target) {
-        target.prototype.apiUrl = params;
-    };
-}
-// 属性装饰器
-function logProperty(parmas) {
-    return function (target, attr) {
-        // target 类
-        // attr 装饰器装饰的属性 写在那个属性前面
-        target[attr] = parmas;
-    };
-}
-let HttpClient3 = class HttpClient3 {
-    constructor() {
-    }
-    getData() {
-        console.log(this.url);
-    }
-};
-__decorate([
-    logProperty('http://itying.com')
-], HttpClient3.prototype, "url", void 0);
-HttpClient3 = __decorate([
-    logClass3("xxx")
-], HttpClient3);
-let http3 = new HttpClient3();
-// http3.getData();
-// 装饰器
-function get(parmas) {
-    return function (target, methodName, desc) {
-        // console.log(target) // 方法的原型对象
-        // console.log(methodName) //方法的名称
-        // console.log(desc) // 方法的属性描述 里面的value就是方法
-        // target.apiUrl = "xxx"
-        // target.run = function (): void {
-        //   console.log('run')
-        // }
-        // 修改装饰器的方法 把装饰器方法传入所有参数改为string
-        // 1.保存当前方法
-        let oMethod = desc.value;
-        // 替换当前方法
-        // desc.value = function (...args: any[]) {
-        //   args = args.map((item) => {
-        //     return String(item);
-        //   })
-        //   console.log(args)
-        // }
-        // 修改当前方法 对象冒充
-        desc.value = function (...args) {
-            args = args.map((item) => {
-                return String(item);
-            });
-            oMethod.apply(this, args); // 对象冒充
-        };
-    };
-}
-class HttpClient4 {
-    constructor() {
-    }
-    getData(...args) {
-        console.log(args);
-        console.log("我是getData的方法");
-    }
-}
-__decorate([
-    get('http://www.itying.com')
-], HttpClient4.prototype, "getData", null);
-let http4 = new HttpClient4();
-// http4.run()
-// http4.getData(1, 2, 3, true)
-// 方法参数装饰器 为类的原型添加一些元数据 用的比较少
-function logParams(params) {
-    return function (target, paramsName, paramsIndex) {
-        // console.log(target)  // 原型对象
-        // console.log(paramsName)  // 方法名称
-        // console.log(paramsIndex) // 参数索引
-        // console.log(params)
-        target.apiUrl = params;
-    };
-}
-class HttpClient5 {
-    constructor() {
-    }
-    getData(uid) {
-        console.log('1232');
-    }
-}
-__decorate([
-    __param(0, logParams('xxxx'))
-], HttpClient5.prototype, "getData", null);
-let http5 = new HttpClient5();
-// http5.getData(123456)
-// console.log(http5.apiUrl)
-// 各种装饰器的执行顺序
-// 属性装饰器=>放啊发装饰器=>方法参数装饰器=>类装饰器
-// 如果有多个同类装饰器 从后往前执行 例 两个方法装饰器会先执行最后一个方法装饰器
-const zsq_1 = require("./moduls/zsq");
-let HttpClient6 = class HttpClient6 {
-    constructor() {
-    }
-    getData() { }
-    setData(attr1, attr2) { }
-};
-__decorate([
-    zsq_1.zsq.logAttribute()
-], HttpClient6.prototype, "url", void 0);
-__decorate([
-    zsq_1.zsq.logMethods()
-], HttpClient6.prototype, "getData", null);
-__decorate([
-    __param(0, zsq_1.zsq.logParams1()), __param(1, zsq_1.zsq.logParams2())
-], HttpClient6.prototype, "setData", null);
-HttpClient6 = __decorate([
-    zsq_1.zsq.logClass1('http://www.itying.com'),
-    zsq_1.zsq.logClass2('xxxx')
-], HttpClient6);
-let http = new HttpClient6();
+// let http1: any = new HttpClient1()
+// // console.log(http1.apiUrl)
+// // 类装饰器重载构造函数 每个属性 方法都要修改
+// function logClass2(target: any) {
+//   return class extends target {
+//     apiUrl: string = "我是修改后的数据"
+//     getData() {
+//       console.log(this.apiUrl + "111")
+//     }
+//   }
+// }
+// @logClass2
+// class HttpClient2 {
+//   public apiUrl: string | undefined
+//   constructor() {
+//     this.apiUrl = "我是构造函数里面的apiUrl"
+//   }
+//   getData(): void {
+//     console.log(this.apiUrl)
+//   }
+// }
+// let http2 = new HttpClient2();
+// // http2.getData()
+// // 属性装饰器 接收两个参数 原型对象 当前属性名称
+// // 类装饰器
+// function logClass3(params: string) {
+//   return function (target: any) {
+//     target.prototype.apiUrl = params
+//   }
+// }
+// // 属性装饰器
+// function logProperty(parmas: any) {
+//   return function (target: any, attr: any) {
+//     // target 类
+//     // attr 装饰器装饰的属性 写在那个属性前面
+//     target[attr] = parmas;
+//   }
+// }
+// @logClass3("xxx")
+// class HttpClient3 {
+//   @logProperty('http://itying.com')
+//   public url: string | undefined
+//   constructor() {
+//   }
+//   getData(): void {
+//     console.log(this.url)
+//   }
+// }
+// let http3: any = new HttpClient3()
+// // http3.getData();
+// // 装饰器
+// function get(parmas: any) {
+//   return function (target: any, methodName: any, desc: any) {
+//     // console.log(target) // 方法的原型对象
+//     // console.log(methodName) //方法的名称
+//     // console.log(desc) // 方法的属性描述 里面的value就是方法
+//     // target.apiUrl = "xxx"
+//     // target.run = function (): void {
+//     //   console.log('run')
+//     // }
+//     // 修改装饰器的方法 把装饰器方法传入所有参数改为string
+//     // 1.保存当前方法
+//     let oMethod = desc.value;
+//     // 替换当前方法
+//     // desc.value = function (...args: any[]) {
+//     //   args = args.map((item) => {
+//     //     return String(item);
+//     //   })
+//     //   console.log(args)
+//     // }
+//     // 修改当前方法 对象冒充
+//     desc.value = function (...args: any[]) {
+//       args = args.map((item) => {
+//         return String(item);
+//       })
+//       oMethod.apply(this, args) // 对象冒充
+//     }
+//   }
+// }
+// class HttpClient4 {
+//   public url: string | undefined
+//   constructor() {
+//   }
+//   @get('http://www.itying.com')
+//   getData(...args: any[]): void {
+//     console.log(args)
+//     console.log("我是getData的方法")
+//   }
+// }
+// let http4: any = new HttpClient4();
+// // http4.run()
+// // http4.getData(1, 2, 3, true)
+// // 方法参数装饰器 为类的原型添加一些元数据 用的比较少
+// function logParams(params: any) {
+//   return function (target: any, paramsName: any, paramsIndex: any) {
+//     // console.log(target)  // 原型对象
+//     // console.log(paramsName)  // 方法名称
+//     // console.log(paramsIndex) // 参数索引
+//     // console.log(params)
+//     target.apiUrl = params
+//   }
+// }
+// class HttpClient5 {
+//   public url: string | undefined
+//   constructor() {
+//   }
+//   getData(@logParams('xxxx') uid: any): void {
+//     console.log('1232')
+//   }
+// }
+// let http5: any = new HttpClient5();
+// // http5.getData(123456)
+// // console.log(http5.apiUrl)
+// // 各种装饰器的执行顺序
+// // 属性装饰器=>放啊发装饰器=>方法参数装饰器=>类装饰器
+// // 如果有多个同类装饰器 从后往前执行 例 两个方法装饰器会先执行最后一个方法装饰器
+// import { zsq } from './moduls/zsq'
+// @zsq.logClass1('http://www.itying.com')
+// @zsq.logClass2('xxxx')
+// class HttpClient6 {
+//   @zsq.logAttribute()
+//   public url: string | undefined
+//   constructor() {
+//   }
+//   @zsq.logMethods()
+//   getData(): void { }
+//   setData(@zsq.logParams1() attr1: any, @zsq.logParams2() attr2: any) { }
+// }
+// let http: any = new HttpClient6();

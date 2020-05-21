@@ -1,0 +1,1 @@
+declare const md5: (string: string, key: string, raw: boolean) => string; // 配置后ts不再监视这个方法
