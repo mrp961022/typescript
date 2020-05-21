@@ -597,7 +597,7 @@ let http5 = new HttpClient5();
 // http5.getData(123456)
 // console.log(http5.apiUrl)
 // 各种装饰器的执行顺序
-// 属性装饰器=>放啊发装饰器=>方法参数装饰器=>类装饰器
+// 属性装饰器=>方法发装饰器=>方法参数装饰器=>类装饰器
 // 如果有多个同类装饰器 从后往前执行 例 两个方法装饰器会先执行最后一个方法装饰器
 const zsq_1 = require("./moduls/zsq");
 let HttpClient6 = class HttpClient6 {
