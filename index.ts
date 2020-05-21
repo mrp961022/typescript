@@ -522,199 +522,199 @@ interface DBI<T> {
 }
 
 // ts中的模块 把一些公共功能分离出去 使用 export 暴露 其他文件需要使用的时候 import 引入
-// import { UserClass, UserModel } from "./model/user"
-// import { ArticleClass, ArticleModel } from "./model/atricle"
-// let u = new UserClass()
-// u.userName = "zhangsan"
-// u.passWord = "123456"
-// // UserModel.add(u)
-// // UserModel.get(11)
+import { UserClass, UserModel } from "./model/user"
+import { ArticleClass, ArticleModel } from "./model/atricle"
+let u = new UserClass()
+u.userName = "zhangsan"
+u.passWord = "123456"
+// UserModel.add(u)
+// UserModel.get(11)
 
-// let article = new ArticleClass();
-// article.title = "中国"
-// article.desc = "中国地理"
-// article.id = 1232332
-// // ArticleModel.get(1232332)
+let article = new ArticleClass();
+article.title = "中国"
+article.desc = "中国地理"
+article.id = 1232332
+// ArticleModel.get(1232332)
 
-// // ts中的命名空间  组织代码 避免命名空间
-// import { A, B } from "./moduls/namespace"
-// let ADog = new A.Dog("狼狗")
-// // console.log(ADog.eat())
+// ts中的命名空间  组织代码 避免命名空间
+import { A, B } from "./moduls/namespace"
+let ADog = new A.Dog("狼狗")
+// console.log(ADog.eat())
 
-// let BDog = new B.Dog("大黄狗")
-// // console.log(BDog.eat())
+let BDog = new B.Dog("大黄狗")
+// console.log(BDog.eat())
 
-// // // ts中的装饰器 类装饰器 属性装饰器 方法装饰器等等
-// // // 类装饰器
-// // // 普通装饰器 传入 params 当前类
-// // function logClass(params: any) {
-// //   // console.log(params) // params就是当前类 可以在这里拓展属性或者方法
-// //   params.prototype.apiUrl = "xxxx" // 动态拓展的属性
-// //   params.prototype.run = function (): void {
-// //     console.log("我是一个run方法")
-// //   }
-// // }
-// // @logClass       // 调用装饰器 在那个上面写就是装饰那个
-// // class HttpClient {
-// //   constructor() {
-
-// //   }
-// //   getData(): void { }
-// // }
-
-// // let http: any = new HttpClient();
-// // console.log(http.run())
-
-// // 装饰器工厂 带参数的装饰器 应用比较多
-// function logClass1(params: string) {
-//   return function (target: any) {
-//     target.prototype.apiUrl = params
-//   }
-// }
-// @logClass1("http://www.itying.com/api")
-// class HttpClient1 {
-//   constructor() {
-
-//   }
-//   getData(): void { }
-// }
-// let http1: any = new HttpClient1()
-// // console.log(http1.apiUrl)
-
-// // 类装饰器重载构造函数 每个属性 方法都要修改
-// function logClass2(target: any) {
-//   return class extends target {
-//     apiUrl: string = "我是修改后的数据"
-//     getData() {
-//       console.log(this.apiUrl + "111")
-//     }
-//   }
-// }
-// @logClass2
-// class HttpClient2 {
-//   public apiUrl: string | undefined
-//   constructor() {
-//     this.apiUrl = "我是构造函数里面的apiUrl"
-//   }
-//   getData(): void {
-//     console.log(this.apiUrl)
-//   }
-// }
-
-// let http2 = new HttpClient2();
-// // http2.getData()
-
-// // 属性装饰器 接收两个参数 原型对象 当前属性名称
+// // ts中的装饰器 类装饰器 属性装饰器 方法装饰器等等
 // // 类装饰器
-// function logClass3(params: string) {
-//   return function (target: any) {
-//     target.prototype.apiUrl = params
+// // 普通装饰器 传入 params 当前类
+// function logClass(params: any) {
+//   // console.log(params) // params就是当前类 可以在这里拓展属性或者方法
+//   params.prototype.apiUrl = "xxxx" // 动态拓展的属性
+//   params.prototype.run = function (): void {
+//     console.log("我是一个run方法")
 //   }
 // }
-// // 属性装饰器
-// function logProperty(parmas: any) {
-//   return function (target: any, attr: any) {
-//     // target 类
-//     // attr 装饰器装饰的属性 写在那个属性前面
-//     target[attr] = parmas;
-//   }
-// }
-// @logClass3("xxx")
-// class HttpClient3 {
-//   @logProperty('http://itying.com')
-//   public url: string | undefined
+// @logClass       // 调用装饰器 在那个上面写就是装饰那个
+// class HttpClient {
 //   constructor() {
 
 //   }
-//   getData(): void {
-//     console.log(this.url)
-//   }
-// }
-// let http3: any = new HttpClient3()
-// // http3.getData();
-// // 装饰器
-// function get(parmas: any) {
-//   return function (target: any, methodName: any, desc: any) {
-//     // console.log(target) // 方法的原型对象
-//     // console.log(methodName) //方法的名称
-//     // console.log(desc) // 方法的属性描述 里面的value就是方法
-//     // target.apiUrl = "xxx"
-//     // target.run = function (): void {
-//     //   console.log('run')
-//     // }
-//     // 修改装饰器的方法 把装饰器方法传入所有参数改为string
-//     // 1.保存当前方法
-//     let oMethod = desc.value;
-//     // 替换当前方法
-//     // desc.value = function (...args: any[]) {
-//     //   args = args.map((item) => {
-//     //     return String(item);
-//     //   })
-//     //   console.log(args)
-//     // }
-//     // 修改当前方法 对象冒充
-//     desc.value = function (...args: any[]) {
-//       args = args.map((item) => {
-//         return String(item);
-//       })
-//       oMethod.apply(this, args) // 对象冒充
-//     }
-//   }
-// }
-// class HttpClient4 {
-//   public url: string | undefined
-//   constructor() {
-
-//   }
-//   @get('http://www.itying.com')
-//   getData(...args: any[]): void {
-//     console.log(args)
-//     console.log("我是getData的方法")
-//   }
-// }
-
-// let http4: any = new HttpClient4();
-// // http4.run()
-// // http4.getData(1, 2, 3, true)
-
-// // 方法参数装饰器 为类的原型添加一些元数据 用的比较少
-// function logParams(params: any) {
-//   return function (target: any, paramsName: any, paramsIndex: any) {
-//     // console.log(target)  // 原型对象
-//     // console.log(paramsName)  // 方法名称
-//     // console.log(paramsIndex) // 参数索引
-//     // console.log(params)
-//     target.apiUrl = params
-//   }
-// }
-// class HttpClient5 {
-//   public url: string | undefined
-//   constructor() {
-
-//   }
-//   getData(@logParams('xxxx') uid: any): void {
-//     console.log('1232')
-//   }
-// }
-
-// let http5: any = new HttpClient5();
-// // http5.getData(123456)
-// // console.log(http5.apiUrl)
-
-// // 各种装饰器的执行顺序
-// // 属性装饰器=>放啊发装饰器=>方法参数装饰器=>类装饰器
-// // 如果有多个同类装饰器 从后往前执行 例 两个方法装饰器会先执行最后一个方法装饰器
-// import { zsq } from './moduls/zsq'
-// @zsq.logClass1('http://www.itying.com')
-// @zsq.logClass2('xxxx')
-// class HttpClient6 {
-//   @zsq.logAttribute()
-//   public url: string | undefined
-//   constructor() {
-
-//   }
-//   @zsq.logMethods()
 //   getData(): void { }
-//   setData(@zsq.logParams1() attr1: any, @zsq.logParams2() attr2: any) { }
 // }
-// let http: any = new HttpClient6();
+
+// let http: any = new HttpClient();
+// console.log(http.run())
+
+// 装饰器工厂 带参数的装饰器 应用比较多
+function logClass1(params: string) {
+  return function (target: any) {
+    target.prototype.apiUrl = params
+  }
+}
+@logClass1("http://www.itying.com/api")
+class HttpClient1 {
+  constructor() {
+
+  }
+  getData(): void { }
+}
+let http1: any = new HttpClient1()
+// console.log(http1.apiUrl)
+
+// 类装饰器重载构造函数 每个属性 方法都要修改
+function logClass2(target: any) {
+  return class extends target {
+    apiUrl: string = "我是修改后的数据"
+    getData() {
+      console.log(this.apiUrl + "111")
+    }
+  }
+}
+@logClass2
+class HttpClient2 {
+  public apiUrl: string | undefined
+  constructor() {
+    this.apiUrl = "我是构造函数里面的apiUrl"
+  }
+  getData(): void {
+    console.log(this.apiUrl)
+  }
+}
+
+let http2 = new HttpClient2();
+// http2.getData()
+
+// 属性装饰器 接收两个参数 原型对象 当前属性名称
+// 类装饰器
+function logClass3(params: string) {
+  return function (target: any) {
+    target.prototype.apiUrl = params
+  }
+}
+// 属性装饰器
+function logProperty(parmas: any) {
+  return function (target: any, attr: any) {
+    // target 类
+    // attr 装饰器装饰的属性 写在那个属性前面
+    target[attr] = parmas;
+  }
+}
+@logClass3("xxx")
+class HttpClient3 {
+  @logProperty('http://itying.com')
+  public url: string | undefined
+  constructor() {
+
+  }
+  getData(): void {
+    console.log(this.url)
+  }
+}
+let http3: any = new HttpClient3()
+// http3.getData();
+// 装饰器
+function get(parmas: any) {
+  return function (target: any, methodName: any, desc: any) {
+    // console.log(target) // 方法的原型对象
+    // console.log(methodName) //方法的名称
+    // console.log(desc) // 方法的属性描述 里面的value就是方法
+    // target.apiUrl = "xxx"
+    // target.run = function (): void {
+    //   console.log('run')
+    // }
+    // 修改装饰器的方法 把装饰器方法传入所有参数改为string
+    // 1.保存当前方法
+    let oMethod = desc.value;
+    // 替换当前方法
+    // desc.value = function (...args: any[]) {
+    //   args = args.map((item) => {
+    //     return String(item);
+    //   })
+    //   console.log(args)
+    // }
+    // 修改当前方法 对象冒充
+    desc.value = function (...args: any[]) {
+      args = args.map((item) => {
+        return String(item);
+      })
+      oMethod.apply(this, args) // 对象冒充
+    }
+  }
+}
+class HttpClient4 {
+  public url: string | undefined
+  constructor() {
+
+  }
+  @get('http://www.itying.com')
+  getData(...args: any[]): void {
+    console.log(args)
+    console.log("我是getData的方法")
+  }
+}
+
+let http4: any = new HttpClient4();
+// http4.run()
+// http4.getData(1, 2, 3, true)
+
+// 方法参数装饰器 为类的原型添加一些元数据 用的比较少
+function logParams(params: any) {
+  return function (target: any, paramsName: any, paramsIndex: any) {
+    // console.log(target)  // 原型对象
+    // console.log(paramsName)  // 方法名称
+    // console.log(paramsIndex) // 参数索引
+    // console.log(params)
+    target.apiUrl = params
+  }
+}
+class HttpClient5 {
+  public url: string | undefined
+  constructor() {
+
+  }
+  getData(@logParams('xxxx') uid: any): void {
+    console.log('1232')
+  }
+}
+
+let http5: any = new HttpClient5();
+// http5.getData(123456)
+// console.log(http5.apiUrl)
+
+// 各种装饰器的执行顺序
+// 属性装饰器=>放啊发装饰器=>方法参数装饰器=>类装饰器
+// 如果有多个同类装饰器 从后往前执行 例 两个方法装饰器会先执行最后一个方法装饰器
+import { zsq } from './moduls/zsq'
+@zsq.logClass1('http://www.itying.com')
+@zsq.logClass2('xxxx')
+class HttpClient6 {
+  @zsq.logAttribute()
+  public url: string | undefined
+  constructor() {
+
+  }
+  @zsq.logMethods()
+  getData(): void { }
+  setData(@zsq.logParams1() attr1: any, @zsq.logParams2() attr2: any) { }
+}
+let http: any = new HttpClient6();
