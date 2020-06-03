@@ -1,9 +1,9 @@
+interface Animal {
+    name: string
+    eat(): void
+}
 // 命名空间的内容需要暴露出来
 namespace A {
-    interface Animal {
-        name: string
-        eat(): void
-    }
     export class Dog implements Animal {
         name: string
         constructor(name: string) {
@@ -23,11 +23,8 @@ namespace A {
         }
     }
 }
+
 namespace B {
-    interface Animal {
-        name: string
-        eat(): void
-    }
     export class Dog implements Animal {
         name: string
         constructor(name: string) {
